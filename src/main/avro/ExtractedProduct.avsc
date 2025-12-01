@@ -1,0 +1,12 @@
+{
+  "type": "record",
+  "name": "ExtractedProduct",
+  "namespace": "com.alertbot.avro",
+  "fields": [
+    { "name": "id", "type": "string" },
+    { "name": "product", "type": "string" },
+    { "name": "level", "type": "string" },
+    { "name": "price_max", "type": "string" },
+    { "name": "duration_max", "type": "string" }
+  ]
+}

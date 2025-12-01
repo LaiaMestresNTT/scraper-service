@@ -1,0 +1,19 @@
+server:
+  port: 8084
+
+spring:
+  main:
+    web-application-type: none
+  kafka:
+    bootstrap-servers: broker:29092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    consumer:
+      group-id: nlp_results-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      auto-offset-reset: earliest
+    properties:
+      schema.registry.url: http://schema-registry:8081
+      specific.avro.reader: true
