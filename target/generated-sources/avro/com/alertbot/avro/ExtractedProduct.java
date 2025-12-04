@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -1920081050570253109L;
+  private static final long serialVersionUID = -7990951992509792881L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ExtractedProduct\",\"namespace\":\"com.alertbot.avro\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"product\",\"type\":\"string\"},{\"name\":\"level\",\"type\":\"string\"},{\"name\":\"price_max\",\"type\":\"string\"},{\"name\":\"duration_max\",\"type\":\"string\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ExtractedProduct\",\"namespace\":\"com.alertbot.avro\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"course\",\"type\":\"string\"},{\"name\":\"level\",\"type\":\"string\"},{\"name\":\"price_max\",\"type\":\"string\"},{\"name\":\"duration_max\",\"type\":\"string\"},{\"name\":\"lang\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -74,10 +74,11 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
   }
 
   private java.lang.CharSequence id;
-  private java.lang.CharSequence product;
+  private java.lang.CharSequence course;
   private java.lang.CharSequence level;
   private java.lang.CharSequence price_max;
   private java.lang.CharSequence duration_max;
+  private java.lang.CharSequence lang;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -89,17 +90,19 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
   /**
    * All-args constructor.
    * @param id The new value for id
-   * @param product The new value for product
+   * @param course The new value for course
    * @param level The new value for level
    * @param price_max The new value for price_max
    * @param duration_max The new value for duration_max
+   * @param lang The new value for lang
    */
-  public ExtractedProduct(java.lang.CharSequence id, java.lang.CharSequence product, java.lang.CharSequence level, java.lang.CharSequence price_max, java.lang.CharSequence duration_max) {
+  public ExtractedProduct(java.lang.CharSequence id, java.lang.CharSequence course, java.lang.CharSequence level, java.lang.CharSequence price_max, java.lang.CharSequence duration_max, java.lang.CharSequence lang) {
     this.id = id;
-    this.product = product;
+    this.course = course;
     this.level = level;
     this.price_max = price_max;
     this.duration_max = duration_max;
+    this.lang = lang;
   }
 
   @Override
@@ -113,10 +116,11 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
   public java.lang.Object get(int field$) {
     switch (field$) {
     case 0: return id;
-    case 1: return product;
+    case 1: return course;
     case 2: return level;
     case 3: return price_max;
     case 4: return duration_max;
+    case 5: return lang;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -127,10 +131,11 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: id = (java.lang.CharSequence)value$; break;
-    case 1: product = (java.lang.CharSequence)value$; break;
+    case 1: course = (java.lang.CharSequence)value$; break;
     case 2: level = (java.lang.CharSequence)value$; break;
     case 3: price_max = (java.lang.CharSequence)value$; break;
     case 4: duration_max = (java.lang.CharSequence)value$; break;
+    case 5: lang = (java.lang.CharSequence)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -153,20 +158,20 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
   }
 
   /**
-   * Gets the value of the 'product' field.
-   * @return The value of the 'product' field.
+   * Gets the value of the 'course' field.
+   * @return The value of the 'course' field.
    */
-  public java.lang.CharSequence getProduct() {
-    return product;
+  public java.lang.CharSequence getCourse() {
+    return course;
   }
 
 
   /**
-   * Sets the value of the 'product' field.
+   * Sets the value of the 'course' field.
    * @param value the value to set.
    */
-  public void setProduct(java.lang.CharSequence value) {
-    this.product = value;
+  public void setCourse(java.lang.CharSequence value) {
+    this.course = value;
   }
 
   /**
@@ -221,6 +226,23 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
   }
 
   /**
+   * Gets the value of the 'lang' field.
+   * @return The value of the 'lang' field.
+   */
+  public java.lang.CharSequence getLang() {
+    return lang;
+  }
+
+
+  /**
+   * Sets the value of the 'lang' field.
+   * @param value the value to set.
+   */
+  public void setLang(java.lang.CharSequence value) {
+    this.lang = value;
+  }
+
+  /**
    * Creates a new ExtractedProduct RecordBuilder.
    * @return A new ExtractedProduct RecordBuilder
    */
@@ -262,10 +284,11 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
     implements org.apache.avro.data.RecordBuilder<ExtractedProduct> {
 
     private java.lang.CharSequence id;
-    private java.lang.CharSequence product;
+    private java.lang.CharSequence course;
     private java.lang.CharSequence level;
     private java.lang.CharSequence price_max;
     private java.lang.CharSequence duration_max;
+    private java.lang.CharSequence lang;
 
     /** Creates a new Builder */
     private Builder() {
@@ -282,8 +305,8 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
         this.id = data().deepCopy(fields()[0].schema(), other.id);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
-      if (isValidValue(fields()[1], other.product)) {
-        this.product = data().deepCopy(fields()[1].schema(), other.product);
+      if (isValidValue(fields()[1], other.course)) {
+        this.course = data().deepCopy(fields()[1].schema(), other.course);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
       if (isValidValue(fields()[2], other.level)) {
@@ -298,6 +321,10 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
         this.duration_max = data().deepCopy(fields()[4].schema(), other.duration_max);
         fieldSetFlags()[4] = other.fieldSetFlags()[4];
       }
+      if (isValidValue(fields()[5], other.lang)) {
+        this.lang = data().deepCopy(fields()[5].schema(), other.lang);
+        fieldSetFlags()[5] = other.fieldSetFlags()[5];
+      }
     }
 
     /**
@@ -310,8 +337,8 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
         this.id = data().deepCopy(fields()[0].schema(), other.id);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.product)) {
-        this.product = data().deepCopy(fields()[1].schema(), other.product);
+      if (isValidValue(fields()[1], other.course)) {
+        this.course = data().deepCopy(fields()[1].schema(), other.course);
         fieldSetFlags()[1] = true;
       }
       if (isValidValue(fields()[2], other.level)) {
@@ -325,6 +352,10 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
       if (isValidValue(fields()[4], other.duration_max)) {
         this.duration_max = data().deepCopy(fields()[4].schema(), other.duration_max);
         fieldSetFlags()[4] = true;
+      }
+      if (isValidValue(fields()[5], other.lang)) {
+        this.lang = data().deepCopy(fields()[5].schema(), other.lang);
+        fieldSetFlags()[5] = true;
       }
     }
 
@@ -369,41 +400,41 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
     }
 
     /**
-      * Gets the value of the 'product' field.
+      * Gets the value of the 'course' field.
       * @return The value.
       */
-    public java.lang.CharSequence getProduct() {
-      return product;
+    public java.lang.CharSequence getCourse() {
+      return course;
     }
 
 
     /**
-      * Sets the value of the 'product' field.
-      * @param value The value of 'product'.
+      * Sets the value of the 'course' field.
+      * @param value The value of 'course'.
       * @return This builder.
       */
-    public com.alertbot.avro.ExtractedProduct.Builder setProduct(java.lang.CharSequence value) {
+    public com.alertbot.avro.ExtractedProduct.Builder setCourse(java.lang.CharSequence value) {
       validate(fields()[1], value);
-      this.product = value;
+      this.course = value;
       fieldSetFlags()[1] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'product' field has been set.
-      * @return True if the 'product' field has been set, false otherwise.
+      * Checks whether the 'course' field has been set.
+      * @return True if the 'course' field has been set, false otherwise.
       */
-    public boolean hasProduct() {
+    public boolean hasCourse() {
       return fieldSetFlags()[1];
     }
 
 
     /**
-      * Clears the value of the 'product' field.
+      * Clears the value of the 'course' field.
       * @return This builder.
       */
-    public com.alertbot.avro.ExtractedProduct.Builder clearProduct() {
-      product = null;
+    public com.alertbot.avro.ExtractedProduct.Builder clearCourse() {
+      course = null;
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -528,16 +559,57 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
       return this;
     }
 
+    /**
+      * Gets the value of the 'lang' field.
+      * @return The value.
+      */
+    public java.lang.CharSequence getLang() {
+      return lang;
+    }
+
+
+    /**
+      * Sets the value of the 'lang' field.
+      * @param value The value of 'lang'.
+      * @return This builder.
+      */
+    public com.alertbot.avro.ExtractedProduct.Builder setLang(java.lang.CharSequence value) {
+      validate(fields()[5], value);
+      this.lang = value;
+      fieldSetFlags()[5] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'lang' field has been set.
+      * @return True if the 'lang' field has been set, false otherwise.
+      */
+    public boolean hasLang() {
+      return fieldSetFlags()[5];
+    }
+
+
+    /**
+      * Clears the value of the 'lang' field.
+      * @return This builder.
+      */
+    public com.alertbot.avro.ExtractedProduct.Builder clearLang() {
+      lang = null;
+      fieldSetFlags()[5] = false;
+      return this;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public ExtractedProduct build() {
       try {
         ExtractedProduct record = new ExtractedProduct();
         record.id = fieldSetFlags()[0] ? this.id : (java.lang.CharSequence) defaultValue(fields()[0]);
-        record.product = fieldSetFlags()[1] ? this.product : (java.lang.CharSequence) defaultValue(fields()[1]);
+        record.course = fieldSetFlags()[1] ? this.course : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.level = fieldSetFlags()[2] ? this.level : (java.lang.CharSequence) defaultValue(fields()[2]);
         record.price_max = fieldSetFlags()[3] ? this.price_max : (java.lang.CharSequence) defaultValue(fields()[3]);
         record.duration_max = fieldSetFlags()[4] ? this.duration_max : (java.lang.CharSequence) defaultValue(fields()[4]);
+        record.lang = fieldSetFlags()[5] ? this.lang : (java.lang.CharSequence) defaultValue(fields()[5]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -572,13 +644,15 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
   {
     out.writeString(this.id);
 
-    out.writeString(this.product);
+    out.writeString(this.course);
 
     out.writeString(this.level);
 
     out.writeString(this.price_max);
 
     out.writeString(this.duration_max);
+
+    out.writeString(this.lang);
 
   }
 
@@ -589,7 +663,7 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
     if (fieldOrder == null) {
       this.id = in.readString(this.id instanceof Utf8 ? (Utf8)this.id : null);
 
-      this.product = in.readString(this.product instanceof Utf8 ? (Utf8)this.product : null);
+      this.course = in.readString(this.course instanceof Utf8 ? (Utf8)this.course : null);
 
       this.level = in.readString(this.level instanceof Utf8 ? (Utf8)this.level : null);
 
@@ -597,15 +671,17 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
 
       this.duration_max = in.readString(this.duration_max instanceof Utf8 ? (Utf8)this.duration_max : null);
 
+      this.lang = in.readString(this.lang instanceof Utf8 ? (Utf8)this.lang : null);
+
     } else {
-      for (int i = 0; i < 5; i++) {
+      for (int i = 0; i < 6; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.id = in.readString(this.id instanceof Utf8 ? (Utf8)this.id : null);
           break;
 
         case 1:
-          this.product = in.readString(this.product instanceof Utf8 ? (Utf8)this.product : null);
+          this.course = in.readString(this.course instanceof Utf8 ? (Utf8)this.course : null);
           break;
 
         case 2:
@@ -618,6 +694,10 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
 
         case 4:
           this.duration_max = in.readString(this.duration_max instanceof Utf8 ? (Utf8)this.duration_max : null);
+          break;
+
+        case 5:
+          this.lang = in.readString(this.lang instanceof Utf8 ? (Utf8)this.lang : null);
           break;
 
         default:

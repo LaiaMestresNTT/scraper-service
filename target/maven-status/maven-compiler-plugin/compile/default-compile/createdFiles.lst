@@ -1,4 +1,9 @@
 com\alertbot\scraperservice\kafka\ExtractedProductConsumer.class
 com\alertbot\avro\ExtractedProduct.class
-com\alertbot\avro\ExtractedProduct$Builder.class
+com\alertbot\scraperservice\service\SSLUtil$1.class
 com\alertbot\scraperservice\ScraperServiceApplication.class
+com\alertbot\scraperservice\model\AlertProduct.class
+com\alertbot\scraperservice\model\ScrapedProduct.class
+com\alertbot\scraperservice\service\Scraper.class
+com\alertbot\avro\ExtractedProduct$Builder.class
+com\alertbot\scraperservice\service\SSLUtil.class
