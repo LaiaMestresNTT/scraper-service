@@ -36,8 +36,7 @@ public class Scraper {
             // 2. Definir el Selector CSS
             // El selector CSS para los contenedores de resultados en Amazon suele ser una clase que empieza por 's-result-item'
             // A menudo, se combina con el atributo data-index para asegurar que solo se obtengan los resultados reales.
-            String selectorContenedor = "div[data-component='s-product-result']"; // Un selector común y más estable
-            // O uno más general: String selectorContenedor = ".s-result-item";
+            String selectorContenedor = ".s-result-item";// Un selector común y más estable
 
             // 3. Seleccionar todos los elementos de resultado
             Elements resultados = doc.select(selectorContenedor);
@@ -53,7 +52,7 @@ public class Scraper {
                 // 4. Buscar la etiqueta <a> dentro del contenedor actual
                 // El enlace del producto suele estar en una etiqueta <a> con la clase 'a-link-normal'
                 // y que contiene el título del producto.
-                Element enlaceElemento = resultado.selectFirst("a.a-link-normal[href]");
+                Element enlaceElemento = resultado.selectFirst("a:has(h2)");
 
                 if (enlaceElemento != null) {
                     // 5. Extraer el atributo 'href'
