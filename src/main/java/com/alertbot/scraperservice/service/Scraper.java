@@ -1,17 +1,12 @@
 package com.alertbot.scraperservice.service;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
-import com.alertbot.scraperservice.service.SSLUtil;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.TimeUnit; // Para usar esperas implícitas (mejor que Thread.sleep)
 
 @Service
 public class Scraper {
@@ -20,9 +15,9 @@ public class Scraper {
     String divContent = "title-recipe";
     String aClass = "a-link-normal s-line-clamp-4 s-link-style a-text-normal"; // buscar text de href de esta etiqueta con esta clase
 
-    public void scrapeUdemy() {
-
-
+    public void scrapeWeb() {
+        SSLUtil.disableCertificateValidation();
+        System.out.println("ADVERTENCIA: Validación SSL/TLS deshabilitada.");
 
         String busqueda = "aspiradora sin cable";
         // Codificar la búsqueda para la URL

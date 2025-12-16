@@ -14,6 +14,6 @@ public class ScraperServiceApplication {
         SpringApplication.run(ScraperServiceApplication.class, args);
 
         Scraper scraper = new Scraper();
-        scraper.scrapeUdemy();
+        scraper.scrapeWeb();
     }
 }
