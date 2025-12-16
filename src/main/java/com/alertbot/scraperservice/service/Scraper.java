@@ -1,98 +1,94 @@
 package com.alertbot.scraperservice.service;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.springframework.stereotype.Service;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
+import com.alertbot.scraperservice.service.SSLUtil;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit; // Para usar esperas implícitas (mejor que Thread.sleep)
 
 @Service
 public class Scraper {
 
-    //public void scrapeUdemy(AlertProduct product) {
+    String divLink = "data-cy";
+    String divContent = "title-recipe";
+    String aClass = "a-link-normal s-line-clamp-4 s-link-style a-text-normal"; // buscar text de href de esta etiqueta con esta clase
+
     public void scrapeUdemy() {
-        // 1. CONFIGURACIÓN DEL DRIVER
-        WebDriverManager.chromedriver().setup();
 
-        ChromeOptions options = new ChromeOptions();
 
-        // Esencial para entornos Docker/Linux sin interfaz gráfica
-        options.addArguments("--headless=new");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--disable-gpu");
 
-        WebDriver driver = null;
+        String busqueda = "aspiradora sin cable";
+        // Codificar la búsqueda para la URL
+        String urlBusqueda = "https://www.amazon.es/s?k=" + busqueda.replace(" ", "+");
+        int maxResultados = 15;
+
+        System.out.println("Buscando en: " + urlBusqueda);
 
         try {
-            driver = new ChromeDriver(options);
-            // Configura una espera implícita: Selenium esperará hasta 10 segundos
-            // a que un elemento aparezca antes de lanzar un error.
-            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            // 1. Conectar y obtener el Documento HTML
+            Document doc = Jsoup.connect(urlBusqueda)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                    .header("Accept-Language", "es-ES,es;q=0.9")
+                    .get();
 
-            String URL_test = "https://www.udemy.com/courses/search/?q=python&duration=long&ratings=4.0&lang=es&instructional_level=intermediate";
+            // 2. Definir el Selector CSS
+            // El selector CSS para los contenedores de resultados en Amazon suele ser una clase que empieza por 's-result-item'
+            // A menudo, se combina con el atributo data-index para asegurar que solo se obtengan los resultados reales.
+            String selectorContenedor = "div[data-component='s-product-result']"; // Un selector común y más estable
+            // O uno más general: String selectorContenedor = ".s-result-item";
 
-            // 2. NAVEGAR DIRECTAMENTE A LA URL DE RESULTADOS
-            System.out.println("Navegando directamente a: " + URL_test);
-            driver.get(URL_test);
+            // 3. Seleccionar todos los elementos de resultado
+            Elements resultados = doc.select(selectorContenedor);
 
-            // Damos un tiempo extra para que el JavaScript cargue todos los resultados
-            // Es preferible usar 'waits' explícitas, pero Thread.sleep(5000) funciona para empezar.
-            Thread.sleep(5000);
+            int contador = 0;
+            System.out.println("\nEnlaces de los resultados:");
 
-            // 3. SCRAPEAR E ITERAR LOS RESULTADOS
-            scrapeResults(driver);
+            for (Element resultado : resultados) {
+                if (contador >= maxResultados) {
+                    break; // Detener después de los primeros 15
+                }
 
-        } catch (Exception e) {
-            System.err.println("Ocurrió un error durante el scraping: " + e.getMessage());
-        } finally {
-            // 4. CERRAR EL NAVEGADOR
-            if (driver != null) {
-                driver.quit();
-                System.out.println("\nScraping finalizado y navegador cerrado.");
+                // 4. Buscar la etiqueta <a> dentro del contenedor actual
+                // El enlace del producto suele estar en una etiqueta <a> con la clase 'a-link-normal'
+                // y que contiene el título del producto.
+                Element enlaceElemento = resultado.selectFirst("a.a-link-normal[href]");
+
+                if (enlaceElemento != null) {
+                    // 5. Extraer el atributo 'href'
+                    String href = enlaceElemento.attr("href");
+
+                    // 6. Construir la URL completa
+                    // Amazon a menudo usa URLs relativas, por lo que las hacemos absolutas.
+                    String urlCompleta = "https://www.amazon.es" + href;
+
+                    System.out.println((contador + 1) + ". " + urlCompleta);
+                    contador++;
+                }
             }
-        }
 
+            if (contador == 0) {
+                System.out.println("No se encontraron resultados con el selector: " + selectorContenedor);
+                System.out.println("--- NOTA IMPORTANTE ---");
+                System.out.println("El selector HTML de Amazon (y de muchos sitios grandes) cambia frecuentemente. ");
+                System.out.println("Es posible que necesites inspeccionar el HTML actual de la página para encontrar el selector correcto.");
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error al conectar o al leer la página. Amazon podría haber bloqueado la solicitud.");
+        }
     }
 
-    private void scrapeResults(WebDriver driver) {
-        // Selector CSS para la tarjeta individual del curso
-        String cardSelector = ".content-grid-item-module--item--MDYzd";
+    private void scrapeResults() {
 
-        // Localizar TODOS los contenedores de curso en la página
-        List<WebElement> courseCards = driver.findElements(By.cssSelector(cardSelector));
-
-        System.out.println("\nCursos encontrados: " + courseCards.size());
-
-        // Iterar sobre cada tarjeta encontrada
-        for (int i = 0; i < courseCards.size(); i++) {
-            WebElement card = courseCards.get(i);
-
-            try {
-                // Título del curso (usando data-purpose)
-                String titulo = card.findElement(By.cssSelector("[data-purpose='course-title-url']")).getText();
-
-                // Precio del curso
-                String precio = card.findElement(By.cssSelector("[data-purpose='course-price-text']")).getText();
-
-                // Extraer el enlace (opcional)
-                String enlace = card.findElement(By.cssSelector("[data-purpose='course-title-url']")).getAttribute("href");
-
-                System.out.println("----------------------------------------");
-                System.out.println("Curso #" + (i + 1));
-                System.out.println("Título: " + titulo);
-                System.out.println("Precio: " + precio);
-                System.out.println("Enlace: " + enlace);
-
-            } catch (Exception e) {
-                System.err.println("Error al extraer detalles del curso #" + (i + 1) + ". Saltando tarjeta.");
-            }
-        }
     }
 
 }
