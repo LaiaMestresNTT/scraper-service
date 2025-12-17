@@ -1,0 +1,13 @@
+{
+  "type": "record",
+  "name": "ScrapedProduct",
+  "namespace": "com.alertbot.avro",
+  "fields": [
+    { "name": "id_busqueda", "type": "string" },
+    { "name": "name", "type": "string" },
+    { "name": "brand", "type": "string" },
+    { "name": "price", "type": "double" },
+    { "name": "rating", "type": "double" },
+    { "name": "url", "type": "string" }
+  ]
+}

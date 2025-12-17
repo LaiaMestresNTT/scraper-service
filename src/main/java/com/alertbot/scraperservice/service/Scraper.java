@@ -1,5 +1,7 @@
 package com.alertbot.scraperservice.service;
 
+import com.alertbot.scraperservice.kafka.ScrapedProductProducer;
+import com.alertbot.scraperservice.model.ScrapedProduct;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -8,21 +10,25 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+
 @Service
 public class Scraper {
 
-    String divLink = "data-cy";
-    String divContent = "title-recipe";
-    String aClass = "a-link-normal s-line-clamp-4 s-link-style a-text-normal"; // buscar text de href de esta etiqueta con esta clase
+    private final ScrapedProductProducer scrapedProductProducer;
+
+    public Scraper(ScrapedProductProducer scrapedProductProducer) {
+        this.scrapedProductProducer = scrapedProductProducer;
+    }
 
     public void scrapeWeb() {
         SSLUtil.disableCertificateValidation();
         System.out.println("ADVERTENCIA: Validación SSL/TLS deshabilitada.");
 
-        String busqueda = "aspiradora sin cable";
         // Codificar la búsqueda para la URL
+        String busqueda = "aspiradora sin cable";
         String urlBusqueda = "https://www.amazon.es/s?k=" + busqueda.replace(" ", "+");
         int maxResultados = 15;
+        String id_busqueda = "1";
 
         System.out.println("Buscando en: " + urlBusqueda);
 
@@ -34,8 +40,6 @@ public class Scraper {
                     .get();
 
             // 2. Definir el Selector CSS
-            // El selector CSS para los contenedores de resultados en Amazon suele ser una clase que empieza por 's-result-item'
-            // A menudo, se combina con el atributo data-index para asegurar que solo se obtengan los resultados reales.
             String selectorContenedor = ".s-result-item";// Un selector común y más estable
 
             // 3. Seleccionar todos los elementos de resultado
@@ -50,8 +54,6 @@ public class Scraper {
                 }
 
                 // 4. Buscar la etiqueta <a> dentro del contenedor actual
-                // El enlace del producto suele estar en una etiqueta <a> con la clase 'a-link-normal'
-                // y que contiene el título del producto.
                 Element enlaceElemento = resultado.selectFirst("a:has(h2)");
 
                 if (enlaceElemento != null) {
@@ -59,19 +61,19 @@ public class Scraper {
                     String href = enlaceElemento.attr("href");
 
                     // 6. Construir la URL completa
-                    // Amazon a menudo usa URLs relativas, por lo que las hacemos absolutas.
                     String urlCompleta = "https://www.amazon.es" + href;
 
-                    System.out.println((contador + 1) + ". " + urlCompleta);
+                    // 7. Llamar al scraper de producto
+                    scrapeProduct(urlCompleta, id_busqueda);
+
                     contador++;
                 }
+
+
             }
 
             if (contador == 0) {
                 System.out.println("No se encontraron resultados con el selector: " + selectorContenedor);
-                System.out.println("--- NOTA IMPORTANTE ---");
-                System.out.println("El selector HTML de Amazon (y de muchos sitios grandes) cambia frecuentemente. ");
-                System.out.println("Es posible que necesites inspeccionar el HTML actual de la página para encontrar el selector correcto.");
             }
 
 
@@ -81,7 +83,108 @@ public class Scraper {
         }
     }
 
-    private void scrapeResults() {
+    private void scrapeProduct(String url, String id_busqueda) {
+        SSLUtil.disableCertificateValidation();
+
+        System.out.println("\n--- Buscando producto en: " + url + " ---");
+
+        try {
+            // 1. Conectar y obtener el Documento HTML
+            Document doc = Jsoup.connect(url)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                    .header("Accept-Language", "es-ES,es;q=0.9")
+                    .get();
+
+            // Llamadas a las nuevas funciones de extracción
+            String name = extractName(doc);
+            String brand = extractBrand(doc);
+            Double price = extractPrice(doc);
+            Double rating = extractRating(doc);
+
+            // Imprimir resultado
+            System.out.println("-> Nombre: " + (name != null ? name : "No encontrado") +
+                    " Marca: " + (brand != null ? brand : "No encontrada") +
+                    " Precio: " + (price != null ? price + " €" : "No encontrado") +
+                    "Valoración: " + (rating != null ? rating + " estrellas" : "No encontrada"));
+
+            ScrapedProduct scrapedProduct = new ScrapedProduct(id_busqueda, name, url, brand, price, rating);
+            scrapedProductProducer.sendMessage(scrapedProduct);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error al conectar o al leer la página. Amazon podría haber bloqueado la solicitud.");
+        }
+
+
+    }
+
+    private String extractName(Document doc) {
+
+        String selectorTitulo = "#productTitle";
+        Element tituloElemento = doc.selectFirst(selectorTitulo);
+
+        if (tituloElemento != null) {
+            return tituloElemento.text().trim();
+        }
+        return null;
+    }
+
+    private String extractBrand(Document doc) {
+        String selectorMarca = "#bylineInfo";
+        Element marcaElemento = doc.selectFirst(selectorMarca);
+
+        if (marcaElemento != null) {
+            String textoCompleto = marcaElemento.text().trim();
+            String prefijo = "Visita la tienda de ";
+
+            if (textoCompleto.startsWith(prefijo)) {
+                return textoCompleto.substring(prefijo.length());
+            } else {
+                return textoCompleto;
+            }
+        }
+        return null;
+
+    }
+
+    private Double extractPrice(Document doc) {
+        var priceContainer = doc.selectFirst("div#corePriceDisplay_desktop_feature_div");
+
+        if (priceContainer != null) {
+            var priceWhole = priceContainer.selectFirst("span.a-price-whole");
+            var priceFraction = priceContainer.selectFirst("span.a-price-fraction");
+
+            if (priceWhole != null && priceFraction != null) {
+                String whole = priceWhole.text().trim().replaceAll("[^0-9]", "");
+                String fraction = priceFraction.text().trim();
+
+                String finalPriceStr = whole + "." + fraction;
+
+                try {
+                    return Double.parseDouble(finalPriceStr);
+                } catch (NumberFormatException e) {
+                    System.err.println("Error al parsear el precio (whole/fraction): " + finalPriceStr);
+                }
+            }
+        }
+        return null;
+
+    }
+
+    private Double extractRating(Document doc) {
+
+        Element visibleRating = doc.selectFirst("span[data-action='a-popover'] a span.a-color-base");
+        if (visibleRating != null) {
+            String valorStr = visibleRating.text().trim().replace(",", ".");
+            try {
+                return Double.parseDouble(valorStr);
+            } catch (NumberFormatException e) {
+                return null;
+            }
+        }
+        System.out.println("No se encontró el rating del producto.");
+        return null;
 
     }
 
