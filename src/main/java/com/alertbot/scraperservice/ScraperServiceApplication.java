@@ -8,9 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ScraperServiceApplication {
     public static void main(String[] args) {
-        System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
         SSLUtil.disableCertificateValidation();
         System.out.println("ADVERTENCIA: Validación SSL/TLS deshabilitada.");
+        System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
         SpringApplication.run(ScraperServiceApplication.class, args);
 
