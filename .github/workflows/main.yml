@@ -32,7 +32,7 @@ jobs:
       - name: Maven verify (build + test + package)
         run: |
           chmod +x ./mvnw || true
-          ./mvnw clean package
+          ./mvnw clean install
  
       - name: Publicar artefacto .jar
         uses: actions/upload-artifact@v4
