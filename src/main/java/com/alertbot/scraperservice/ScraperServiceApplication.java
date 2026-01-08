@@ -11,8 +11,7 @@ public class ScraperServiceApplication {
 
         SSLUtil.disableCertificateValidation();
         System.out.println("ADVERTENCIA: Validación SSL/TLS deshabilitada.");
-        System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        System.out.println("FUNCIONAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS??????????????????");
 
         SpringApplication.run(ScraperServiceApplication.class, args);
 
