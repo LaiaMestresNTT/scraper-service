@@ -88,6 +88,12 @@ jobs:
             type=ref,event=tag
             type=sha
             type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Colocar el JAR en target/
+        run: |
+          mkdir -p target
+          cp build/target/*.jar target/
+          ls -la target
  
       - name: Construir y publicar imagen
         uses: docker/build-push-action@v6
@@ -95,8 +101,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          build-args: |
-            JAR_FILE=$(ls -1 build/*.jar | head -n1)
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           # Descomenta para multi-arch:
