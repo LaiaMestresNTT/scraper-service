@@ -28,7 +28,7 @@ public class Scraper {
         String busqueda = "aspiradora sin cable";
         String urlBusqueda = "https://www.amazon.es/s?k=" + busqueda.replace(" ", "+");
         int maxResultados = 15;
-        String id_busqueda = "1";
+        String id_busqueda = "1"; /* cambiar por un ID real cuando estemos rastreando y guardando el flujo*/
 
         System.out.println("Buscando en: " + urlBusqueda);
 
@@ -153,10 +153,13 @@ public class Scraper {
 
     private Double extractPrice(Document doc) {
         var priceContainer = doc.selectFirst("div#corePriceDisplay_desktop_feature_div");
+        System.out.println("La etiqueta general: " + priceContainer);
 
         if (priceContainer != null) {
             var priceWhole = priceContainer.selectFirst("span.a-price-whole");
+            System.out.println("Primer num: " + priceWhole);
             var priceFraction = priceContainer.selectFirst("span.a-price-fraction");
+            System.out.println("Decimal: " + priceFraction);
 
             if (priceWhole != null && priceFraction != null) {
                 String whole = priceWhole.text().trim().replaceAll("[^0-9]", "");
