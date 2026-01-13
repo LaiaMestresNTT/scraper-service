@@ -102,10 +102,7 @@ public class Scraper {
             Double rating = extractRating(doc);
 
             // Imprimir resultado
-            System.out.println("-> Nombre: " + (name != null ? name : "No encontrado ") +
-                    " Marca: " + (brand != null ? brand : "No encontrada ") +
-                    " Precio: " + (price != null ? price + " €" : 0.0) +
-                    "Valoración: " + (rating != null ? rating + " estrellas" : 0.0));
+            System.out.println("-> Nombre: " + name + " Marca: " + brand + " Precio: " + price + "Valoración: " + rating);
 
             ScrapedProduct scrapedProduct = new ScrapedProduct(id_busqueda, name, url, brand, price, rating);
 
@@ -130,7 +127,7 @@ public class Scraper {
         if (tituloElemento != null) {
             return tituloElemento.text().trim();
         }
-        return null;
+        return "";
     }
 
     private String extractBrand(Document doc) {
@@ -147,54 +144,43 @@ public class Scraper {
                 return textoCompleto;
             }
         }
-        return null;
+        return "";
 
     }
 
     private Double extractPrice(Document doc) {
         var priceContainer = doc.selectFirst("div#corePriceDisplay_desktop_feature_div");
-        System.out.println("La etiqueta general: " + priceContainer);
 
         if (priceContainer != null) {
             var priceWhole = priceContainer.selectFirst("span.a-price-whole");
-            System.out.println("Primer num: " + priceWhole);
             var priceFraction = priceContainer.selectFirst("span.a-price-fraction");
-            System.out.println("Decimal: " + priceFraction);
 
             if (priceWhole != null && priceFraction != null) {
-                String whole = priceWhole.text().trim().replaceAll("[^0-9]", "");
-                String fraction = priceFraction.text().trim();
-
-                String finalPriceStr = whole + "." + fraction;
-
                 try {
-                    return Double.parseDouble(finalPriceStr);
-                } catch (NumberFormatException e) {
-                    System.err.println("Error al parsear el precio (whole/fraction): " + finalPriceStr);
+                    String whole = priceWhole.text().trim().replaceAll("[^0-9]", "");
+                    String fraction = priceFraction.text().trim();
+                    return Double.parseDouble(whole + "." + fraction);
+                } catch (Exception e) {
+                    return 0.0;
                 }
-            } else {
-                System.err.println("Price: null. Precio no encontrado");
             }
         }
-        return null;
+        return 0.0;
 
     }
 
     private Double extractRating(Document doc) {
-
         Element visibleRating = doc.selectFirst("span[data-action='a-popover'] a span.a-color-base");
-        if (visibleRating != null) {
-            String valorStr = visibleRating.text().trim().replace(",", ".");
-            try {
-                return Double.parseDouble(valorStr);
-            } catch (NumberFormatException e) {
-                return null;
-            }
-        } else {
-            System.err.println("Rating: null. Rating no encontrado");
-        }
 
-        return null;
+        if (visibleRating != null) {
+            try {
+                String valorStr = visibleRating.text().trim().replace(",", ".");
+                return Double.parseDouble(valorStr);
+            } catch (Exception e) {
+                return 0.0;
+            }
+        }
+        return 0.0;
 
     }
 
