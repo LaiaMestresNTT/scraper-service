@@ -1,6 +1,7 @@
 package com.alertbot.scraperservice.service;
 
 import com.alertbot.scraperservice.kafka.ScrapedProductProducer;
+import com.alertbot.scraperservice.model.AlertProduct;
 import com.alertbot.scraperservice.model.ScrapedProduct;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,27 +15,27 @@ import java.io.IOException;
 @Service
 public class Scraper {
 
-    /*private final ScrapedProductProducer scrapedProductProducer;
+    private final ScrapedProductProducer scrapedProductProducer;
 
     public Scraper(ScrapedProductProducer scrapedProductProducer) {
         this.scrapedProductProducer = scrapedProductProducer;
-    }*/
+    }
 
-    public void scrapeWeb() {
+    public void scrapeWeb(AlertProduct product) {
         SSLUtil.disableCertificateValidation();
         System.out.println("ADVERTENCIA: Validación SSL/TLS deshabilitada.");
 
         // Codificar la búsqueda para la URL
-        String busqueda = "aspiradora sin cable";
-        String urlBusqueda = "https://www.amazon.es/s?k=" + busqueda.replace(" ", "+");
+        /*String busqueda = "aspiradora sin cable";
+        String urlBusqueda = "https://www.amazon.es/s?k=" + busqueda.replace(" ", "+");*/
         int maxResultados = 15;
-        String id_busqueda = "1"; /* cambiar por un ID real cuando estemos rastreando y guardando el flujo*/
+        String id_busqueda = product.getId();
 
-        System.out.println("Buscando en: " + urlBusqueda);
+        System.out.println("Buscando en: " + product.getURL_search());
 
         try {
             // 1. Conectar y obtener el Documento HTML
-            Document doc = Jsoup.connect(urlBusqueda)
+            Document doc = Jsoup.connect(product.getURL_search())
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
                     .header("Accept-Language", "es-ES,es;q=0.9")
                     .get();

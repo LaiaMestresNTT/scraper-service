@@ -18,14 +18,4 @@ public class ScraperServiceApplication {
 
     }
 
-    @Bean
-    public CommandLineRunner run(Scraper scraper) {
-        return args -> {
-            System.out.println("Iniciando el proceso de scraping...");
-
-            scraper.scrapeWeb();
-
-            System.out.println("Proceso de scraping finalizado.");
-        };
-    }
 }
