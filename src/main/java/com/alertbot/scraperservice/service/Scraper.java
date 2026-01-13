@@ -102,10 +102,10 @@ public class Scraper {
             Double rating = extractRating(doc);
 
             // Imprimir resultado
-            System.out.println("-> Nombre: " + (name != null ? name : "No encontrado") +
-                    " Marca: " + (brand != null ? brand : "No encontrada") +
-                    " Precio: " + (price != null ? price + " €" : "No encontrado") +
-                    "Valoración: " + (rating != null ? rating + " estrellas" : "No encontrada"));
+            System.out.println("-> Nombre: " + (name != null ? name : "No encontrado ") +
+                    " Marca: " + (brand != null ? brand : "No encontrada ") +
+                    " Precio: " + (price != null ? price + " €" : 0.0) +
+                    "Valoración: " + (rating != null ? rating + " estrellas" : 0.0));
 
             ScrapedProduct scrapedProduct = new ScrapedProduct(id_busqueda, name, url, brand, price, rating);
 
@@ -169,6 +169,8 @@ public class Scraper {
                 } catch (NumberFormatException e) {
                     System.err.println("Error al parsear el precio (whole/fraction): " + finalPriceStr);
                 }
+            } else {
+                System.err.println("Price: null. Precio no encontrado");
             }
         }
         return null;
@@ -185,8 +187,10 @@ public class Scraper {
             } catch (NumberFormatException e) {
                 return null;
             }
+        } else {
+            System.err.println("Rating: null. Rating no encontrado");
         }
-        System.out.println("No se encontró el rating del producto.");
+
         return null;
 
     }
