@@ -14,11 +14,11 @@ import java.io.IOException;
 @Service
 public class Scraper {
 
-    private final ScrapedProductProducer scrapedProductProducer;
+    /*private final ScrapedProductProducer scrapedProductProducer;
 
     public Scraper(ScrapedProductProducer scrapedProductProducer) {
         this.scrapedProductProducer = scrapedProductProducer;
-    }
+    }*/
 
     public void scrapeWeb() {
         SSLUtil.disableCertificateValidation();
@@ -108,7 +108,10 @@ public class Scraper {
                     "Valoración: " + (rating != null ? rating + " estrellas" : "No encontrada"));
 
             ScrapedProduct scrapedProduct = new ScrapedProduct(id_busqueda, name, url, brand, price, rating);
-            scrapedProductProducer.sendMessage(scrapedProduct);
+
+            /* MANDAR RESULTADO AL PRODUCTOR
+                scrapedProductProducer.sendMessage(scrapedProduct);
+            * */
 
 
         } catch (IOException e) {

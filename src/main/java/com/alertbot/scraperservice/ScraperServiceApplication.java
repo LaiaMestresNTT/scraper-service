@@ -2,8 +2,10 @@ package com.alertbot.scraperservice;
 
 import com.alertbot.scraperservice.service.SSLUtil;
 import com.alertbot.scraperservice.service.Scraper;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class ScraperServiceApplication {
@@ -14,5 +16,16 @@ public class ScraperServiceApplication {
 
         SpringApplication.run(ScraperServiceApplication.class, args);
 
+    }
+
+    @Bean
+    public CommandLineRunner run(Scraper scraper) {
+        return args -> {
+            System.out.println("Iniciando el proceso de scraping...");
+
+            scraper.scrapeWeb();
+
+            System.out.println("Proceso de scraping finalizado.");
+        };
     }
 }
