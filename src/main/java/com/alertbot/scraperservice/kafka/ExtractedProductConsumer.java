@@ -21,7 +21,7 @@ public class ExtractedProductConsumer {
         //CONSTRUIR OBJETO
         AlertProduct product = buildAlertProduct(extractedProduct);
 
-        System.out.println("✅ Mensaje Avro recibido al topic " + TOPIC + ": producto:" + product.getName() + " nivel: "+ product.getLevel()+ " precio max: " + product.getPrice_max()+ " duración max: "+ product.getDuration_max());
+        System.out.println("✅ Mensaje Avro recibido al topic " + TOPIC + ": producto:" + product.getName() + " marca: "+ product.getBrand()+ " precio: " + product.getPrice()+ " valoracion: "+ product.getRating());
 
         //LLAMAR AL SCRAPER
         //scraper.scrapeUdemy(product);
@@ -30,32 +30,14 @@ public class ExtractedProductConsumer {
 
     private AlertProduct buildAlertProduct (ExtractedProduct extractedProduct) {
         String productChatId = extractedProduct.getId().toString();
-        String requestedCourse = extractedProduct.getCourse().toString();
-        String level = extractedProduct.getLevel().toString();
-        double price_max = Double.parseDouble(extractedProduct.getPriceMax().toString());
-        int duration_max = Integer.parseInt(extractedProduct.getDurationMax().toString());
-        String lang = extractedProduct.getLang().toString();
+        String requestedProduct = extractedProduct.getName().toString();
+        String brand = extractedProduct.getBrand().toString();
+        double price = Double.parseDouble(extractedProduct.getPrice().toString());
+        double rating = Double.parseDouble(extractedProduct.getRating().toString());
 
-        String duration = setDuration(duration_max);
+        String URL_search = "https://www.amazon.es/s?k=" + requestedProduct.replace(" ", "+");
 
-        String URL_search = "https://www.udemy.com/courses/search/?q="+requestedCourse+"&duration="+duration+"&ratings=4.0&lang="+lang+"&instructional_level="+level;
-
-        return new AlertProduct(productChatId, requestedCourse, level, price_max, duration_max, lang, URL_search);
+        return new AlertProduct(productChatId, requestedProduct, brand, price, rating, URL_search);
     }
 
-    private String setDuration(int duration_max) {
-
-        if (duration_max >= 0 && duration_max <= 1) {
-            return "extraShort";
-        } else if (duration_max >= 1 && duration_max <= 3) {
-            return "short";
-        } else if (duration_max >= 3 && duration_max <= 6) {
-            return "medium";
-        } else if (duration_max >= 6 && duration_max <= 17) {
-            return "long";
-        } else if (duration_max >= 17) {
-            return "extraLong";
-        }
-        return "";
-    }
 }

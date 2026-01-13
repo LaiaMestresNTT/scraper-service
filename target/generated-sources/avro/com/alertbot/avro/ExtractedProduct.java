@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -7990951992509792881L;
+  private static final long serialVersionUID = 5792222464576349569L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ExtractedProduct\",\"namespace\":\"com.alertbot.avro\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"course\",\"type\":\"string\"},{\"name\":\"level\",\"type\":\"string\"},{\"name\":\"price_max\",\"type\":\"string\"},{\"name\":\"duration_max\",\"type\":\"string\"},{\"name\":\"lang\",\"type\":\"string\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ExtractedProduct\",\"namespace\":\"com.alertbot.avro\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"brand\",\"type\":\"string\"},{\"name\":\"price\",\"type\":\"string\"},{\"name\":\"rating\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -74,11 +74,10 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
   }
 
   private java.lang.CharSequence id;
-  private java.lang.CharSequence course;
-  private java.lang.CharSequence level;
-  private java.lang.CharSequence price_max;
-  private java.lang.CharSequence duration_max;
-  private java.lang.CharSequence lang;
+  private java.lang.CharSequence name;
+  private java.lang.CharSequence brand;
+  private java.lang.CharSequence price;
+  private java.lang.CharSequence rating;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -90,19 +89,17 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
   /**
    * All-args constructor.
    * @param id The new value for id
-   * @param course The new value for course
-   * @param level The new value for level
-   * @param price_max The new value for price_max
-   * @param duration_max The new value for duration_max
-   * @param lang The new value for lang
+   * @param name The new value for name
+   * @param brand The new value for brand
+   * @param price The new value for price
+   * @param rating The new value for rating
    */
-  public ExtractedProduct(java.lang.CharSequence id, java.lang.CharSequence course, java.lang.CharSequence level, java.lang.CharSequence price_max, java.lang.CharSequence duration_max, java.lang.CharSequence lang) {
+  public ExtractedProduct(java.lang.CharSequence id, java.lang.CharSequence name, java.lang.CharSequence brand, java.lang.CharSequence price, java.lang.CharSequence rating) {
     this.id = id;
-    this.course = course;
-    this.level = level;
-    this.price_max = price_max;
-    this.duration_max = duration_max;
-    this.lang = lang;
+    this.name = name;
+    this.brand = brand;
+    this.price = price;
+    this.rating = rating;
   }
 
   @Override
@@ -116,11 +113,10 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
   public java.lang.Object get(int field$) {
     switch (field$) {
     case 0: return id;
-    case 1: return course;
-    case 2: return level;
-    case 3: return price_max;
-    case 4: return duration_max;
-    case 5: return lang;
+    case 1: return name;
+    case 2: return brand;
+    case 3: return price;
+    case 4: return rating;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -131,11 +127,10 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: id = (java.lang.CharSequence)value$; break;
-    case 1: course = (java.lang.CharSequence)value$; break;
-    case 2: level = (java.lang.CharSequence)value$; break;
-    case 3: price_max = (java.lang.CharSequence)value$; break;
-    case 4: duration_max = (java.lang.CharSequence)value$; break;
-    case 5: lang = (java.lang.CharSequence)value$; break;
+    case 1: name = (java.lang.CharSequence)value$; break;
+    case 2: brand = (java.lang.CharSequence)value$; break;
+    case 3: price = (java.lang.CharSequence)value$; break;
+    case 4: rating = (java.lang.CharSequence)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -158,88 +153,71 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
   }
 
   /**
-   * Gets the value of the 'course' field.
-   * @return The value of the 'course' field.
+   * Gets the value of the 'name' field.
+   * @return The value of the 'name' field.
    */
-  public java.lang.CharSequence getCourse() {
-    return course;
+  public java.lang.CharSequence getName() {
+    return name;
   }
 
 
   /**
-   * Sets the value of the 'course' field.
+   * Sets the value of the 'name' field.
    * @param value the value to set.
    */
-  public void setCourse(java.lang.CharSequence value) {
-    this.course = value;
+  public void setName(java.lang.CharSequence value) {
+    this.name = value;
   }
 
   /**
-   * Gets the value of the 'level' field.
-   * @return The value of the 'level' field.
+   * Gets the value of the 'brand' field.
+   * @return The value of the 'brand' field.
    */
-  public java.lang.CharSequence getLevel() {
-    return level;
+  public java.lang.CharSequence getBrand() {
+    return brand;
   }
 
 
   /**
-   * Sets the value of the 'level' field.
+   * Sets the value of the 'brand' field.
    * @param value the value to set.
    */
-  public void setLevel(java.lang.CharSequence value) {
-    this.level = value;
+  public void setBrand(java.lang.CharSequence value) {
+    this.brand = value;
   }
 
   /**
-   * Gets the value of the 'price_max' field.
-   * @return The value of the 'price_max' field.
+   * Gets the value of the 'price' field.
+   * @return The value of the 'price' field.
    */
-  public java.lang.CharSequence getPriceMax() {
-    return price_max;
+  public java.lang.CharSequence getPrice() {
+    return price;
   }
 
 
   /**
-   * Sets the value of the 'price_max' field.
+   * Sets the value of the 'price' field.
    * @param value the value to set.
    */
-  public void setPriceMax(java.lang.CharSequence value) {
-    this.price_max = value;
+  public void setPrice(java.lang.CharSequence value) {
+    this.price = value;
   }
 
   /**
-   * Gets the value of the 'duration_max' field.
-   * @return The value of the 'duration_max' field.
+   * Gets the value of the 'rating' field.
+   * @return The value of the 'rating' field.
    */
-  public java.lang.CharSequence getDurationMax() {
-    return duration_max;
+  public java.lang.CharSequence getRating() {
+    return rating;
   }
 
 
   /**
-   * Sets the value of the 'duration_max' field.
+   * Sets the value of the 'rating' field.
    * @param value the value to set.
    */
-  public void setDurationMax(java.lang.CharSequence value) {
-    this.duration_max = value;
-  }
-
-  /**
-   * Gets the value of the 'lang' field.
-   * @return The value of the 'lang' field.
-   */
-  public java.lang.CharSequence getLang() {
-    return lang;
-  }
-
-
-  /**
-   * Sets the value of the 'lang' field.
-   * @param value the value to set.
-   */
-  public void setLang(java.lang.CharSequence value) {
-    this.lang = value;
+  public void setRating(java.lang.CharSequence value) {
+    this.rating = value;
   }
 
   /**
@@ -284,11 +262,10 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
     implements org.apache.avro.data.RecordBuilder<ExtractedProduct> {
 
     private java.lang.CharSequence id;
-    private java.lang.CharSequence course;
-    private java.lang.CharSequence level;
-    private java.lang.CharSequence price_max;
-    private java.lang.CharSequence duration_max;
-    private java.lang.CharSequence lang;
+    private java.lang.CharSequence name;
+    private java.lang.CharSequence brand;
+    private java.lang.CharSequence price;
+    private java.lang.CharSequence rating;
 
     /** Creates a new Builder */
     private Builder() {
@@ -305,25 +282,21 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
         this.id = data().deepCopy(fields()[0].schema(), other.id);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
-      if (isValidValue(fields()[1], other.course)) {
-        this.course = data().deepCopy(fields()[1].schema(), other.course);
+      if (isValidValue(fields()[1], other.name)) {
+        this.name = data().deepCopy(fields()[1].schema(), other.name);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
-      if (isValidValue(fields()[2], other.level)) {
-        this.level = data().deepCopy(fields()[2].schema(), other.level);
+      if (isValidValue(fields()[2], other.brand)) {
+        this.brand = data().deepCopy(fields()[2].schema(), other.brand);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
-      if (isValidValue(fields()[3], other.price_max)) {
-        this.price_max = data().deepCopy(fields()[3].schema(), other.price_max);
+      if (isValidValue(fields()[3], other.price)) {
+        this.price = data().deepCopy(fields()[3].schema(), other.price);
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
-      if (isValidValue(fields()[4], other.duration_max)) {
-        this.duration_max = data().deepCopy(fields()[4].schema(), other.duration_max);
+      if (isValidValue(fields()[4], other.rating)) {
+        this.rating = data().deepCopy(fields()[4].schema(), other.rating);
         fieldSetFlags()[4] = other.fieldSetFlags()[4];
-      }
-      if (isValidValue(fields()[5], other.lang)) {
-        this.lang = data().deepCopy(fields()[5].schema(), other.lang);
-        fieldSetFlags()[5] = other.fieldSetFlags()[5];
       }
     }
 
@@ -337,25 +310,21 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
         this.id = data().deepCopy(fields()[0].schema(), other.id);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.course)) {
-        this.course = data().deepCopy(fields()[1].schema(), other.course);
+      if (isValidValue(fields()[1], other.name)) {
+        this.name = data().deepCopy(fields()[1].schema(), other.name);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.level)) {
-        this.level = data().deepCopy(fields()[2].schema(), other.level);
+      if (isValidValue(fields()[2], other.brand)) {
+        this.brand = data().deepCopy(fields()[2].schema(), other.brand);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.price_max)) {
-        this.price_max = data().deepCopy(fields()[3].schema(), other.price_max);
+      if (isValidValue(fields()[3], other.price)) {
+        this.price = data().deepCopy(fields()[3].schema(), other.price);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.duration_max)) {
-        this.duration_max = data().deepCopy(fields()[4].schema(), other.duration_max);
+      if (isValidValue(fields()[4], other.rating)) {
+        this.rating = data().deepCopy(fields()[4].schema(), other.rating);
         fieldSetFlags()[4] = true;
-      }
-      if (isValidValue(fields()[5], other.lang)) {
-        this.lang = data().deepCopy(fields()[5].schema(), other.lang);
-        fieldSetFlags()[5] = true;
       }
     }
 
@@ -400,202 +369,162 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
     }
 
     /**
-      * Gets the value of the 'course' field.
+      * Gets the value of the 'name' field.
       * @return The value.
       */
-    public java.lang.CharSequence getCourse() {
-      return course;
+    public java.lang.CharSequence getName() {
+      return name;
     }
 
 
     /**
-      * Sets the value of the 'course' field.
-      * @param value The value of 'course'.
+      * Sets the value of the 'name' field.
+      * @param value The value of 'name'.
       * @return This builder.
       */
-    public com.alertbot.avro.ExtractedProduct.Builder setCourse(java.lang.CharSequence value) {
+    public com.alertbot.avro.ExtractedProduct.Builder setName(java.lang.CharSequence value) {
       validate(fields()[1], value);
-      this.course = value;
+      this.name = value;
       fieldSetFlags()[1] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'course' field has been set.
-      * @return True if the 'course' field has been set, false otherwise.
+      * Checks whether the 'name' field has been set.
+      * @return True if the 'name' field has been set, false otherwise.
       */
-    public boolean hasCourse() {
+    public boolean hasName() {
       return fieldSetFlags()[1];
     }
 
 
     /**
-      * Clears the value of the 'course' field.
+      * Clears the value of the 'name' field.
       * @return This builder.
       */
-    public com.alertbot.avro.ExtractedProduct.Builder clearCourse() {
-      course = null;
+    public com.alertbot.avro.ExtractedProduct.Builder clearName() {
+      name = null;
       fieldSetFlags()[1] = false;
       return this;
     }
 
     /**
-      * Gets the value of the 'level' field.
+      * Gets the value of the 'brand' field.
       * @return The value.
       */
-    public java.lang.CharSequence getLevel() {
-      return level;
+    public java.lang.CharSequence getBrand() {
+      return brand;
     }
 
 
     /**
-      * Sets the value of the 'level' field.
-      * @param value The value of 'level'.
+      * Sets the value of the 'brand' field.
+      * @param value The value of 'brand'.
       * @return This builder.
       */
-    public com.alertbot.avro.ExtractedProduct.Builder setLevel(java.lang.CharSequence value) {
+    public com.alertbot.avro.ExtractedProduct.Builder setBrand(java.lang.CharSequence value) {
       validate(fields()[2], value);
-      this.level = value;
+      this.brand = value;
       fieldSetFlags()[2] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'level' field has been set.
-      * @return True if the 'level' field has been set, false otherwise.
+      * Checks whether the 'brand' field has been set.
+      * @return True if the 'brand' field has been set, false otherwise.
       */
-    public boolean hasLevel() {
+    public boolean hasBrand() {
       return fieldSetFlags()[2];
     }
 
 
     /**
-      * Clears the value of the 'level' field.
+      * Clears the value of the 'brand' field.
       * @return This builder.
       */
-    public com.alertbot.avro.ExtractedProduct.Builder clearLevel() {
-      level = null;
+    public com.alertbot.avro.ExtractedProduct.Builder clearBrand() {
+      brand = null;
       fieldSetFlags()[2] = false;
       return this;
     }
 
     /**
-      * Gets the value of the 'price_max' field.
+      * Gets the value of the 'price' field.
       * @return The value.
       */
-    public java.lang.CharSequence getPriceMax() {
-      return price_max;
+    public java.lang.CharSequence getPrice() {
+      return price;
     }
 
 
     /**
-      * Sets the value of the 'price_max' field.
-      * @param value The value of 'price_max'.
+      * Sets the value of the 'price' field.
+      * @param value The value of 'price'.
       * @return This builder.
       */
-    public com.alertbot.avro.ExtractedProduct.Builder setPriceMax(java.lang.CharSequence value) {
+    public com.alertbot.avro.ExtractedProduct.Builder setPrice(java.lang.CharSequence value) {
       validate(fields()[3], value);
-      this.price_max = value;
+      this.price = value;
       fieldSetFlags()[3] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'price_max' field has been set.
-      * @return True if the 'price_max' field has been set, false otherwise.
+      * Checks whether the 'price' field has been set.
+      * @return True if the 'price' field has been set, false otherwise.
       */
-    public boolean hasPriceMax() {
+    public boolean hasPrice() {
       return fieldSetFlags()[3];
     }
 
 
     /**
-      * Clears the value of the 'price_max' field.
+      * Clears the value of the 'price' field.
       * @return This builder.
       */
-    public com.alertbot.avro.ExtractedProduct.Builder clearPriceMax() {
-      price_max = null;
+    public com.alertbot.avro.ExtractedProduct.Builder clearPrice() {
+      price = null;
       fieldSetFlags()[3] = false;
       return this;
     }
 
     /**
-      * Gets the value of the 'duration_max' field.
+      * Gets the value of the 'rating' field.
       * @return The value.
       */
-    public java.lang.CharSequence getDurationMax() {
-      return duration_max;
+    public java.lang.CharSequence getRating() {
+      return rating;
     }
 
 
     /**
-      * Sets the value of the 'duration_max' field.
-      * @param value The value of 'duration_max'.
+      * Sets the value of the 'rating' field.
+      * @param value The value of 'rating'.
       * @return This builder.
       */
-    public com.alertbot.avro.ExtractedProduct.Builder setDurationMax(java.lang.CharSequence value) {
+    public com.alertbot.avro.ExtractedProduct.Builder setRating(java.lang.CharSequence value) {
       validate(fields()[4], value);
-      this.duration_max = value;
+      this.rating = value;
       fieldSetFlags()[4] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'duration_max' field has been set.
-      * @return True if the 'duration_max' field has been set, false otherwise.
+      * Checks whether the 'rating' field has been set.
+      * @return True if the 'rating' field has been set, false otherwise.
       */
-    public boolean hasDurationMax() {
+    public boolean hasRating() {
       return fieldSetFlags()[4];
     }
 
 
     /**
-      * Clears the value of the 'duration_max' field.
+      * Clears the value of the 'rating' field.
       * @return This builder.
       */
-    public com.alertbot.avro.ExtractedProduct.Builder clearDurationMax() {
-      duration_max = null;
+    public com.alertbot.avro.ExtractedProduct.Builder clearRating() {
+      rating = null;
       fieldSetFlags()[4] = false;
-      return this;
-    }
-
-    /**
-      * Gets the value of the 'lang' field.
-      * @return The value.
-      */
-    public java.lang.CharSequence getLang() {
-      return lang;
-    }
-
-
-    /**
-      * Sets the value of the 'lang' field.
-      * @param value The value of 'lang'.
-      * @return This builder.
-      */
-    public com.alertbot.avro.ExtractedProduct.Builder setLang(java.lang.CharSequence value) {
-      validate(fields()[5], value);
-      this.lang = value;
-      fieldSetFlags()[5] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'lang' field has been set.
-      * @return True if the 'lang' field has been set, false otherwise.
-      */
-    public boolean hasLang() {
-      return fieldSetFlags()[5];
-    }
-
-
-    /**
-      * Clears the value of the 'lang' field.
-      * @return This builder.
-      */
-    public com.alertbot.avro.ExtractedProduct.Builder clearLang() {
-      lang = null;
-      fieldSetFlags()[5] = false;
       return this;
     }
 
@@ -605,11 +534,10 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
       try {
         ExtractedProduct record = new ExtractedProduct();
         record.id = fieldSetFlags()[0] ? this.id : (java.lang.CharSequence) defaultValue(fields()[0]);
-        record.course = fieldSetFlags()[1] ? this.course : (java.lang.CharSequence) defaultValue(fields()[1]);
-        record.level = fieldSetFlags()[2] ? this.level : (java.lang.CharSequence) defaultValue(fields()[2]);
-        record.price_max = fieldSetFlags()[3] ? this.price_max : (java.lang.CharSequence) defaultValue(fields()[3]);
-        record.duration_max = fieldSetFlags()[4] ? this.duration_max : (java.lang.CharSequence) defaultValue(fields()[4]);
-        record.lang = fieldSetFlags()[5] ? this.lang : (java.lang.CharSequence) defaultValue(fields()[5]);
+        record.name = fieldSetFlags()[1] ? this.name : (java.lang.CharSequence) defaultValue(fields()[1]);
+        record.brand = fieldSetFlags()[2] ? this.brand : (java.lang.CharSequence) defaultValue(fields()[2]);
+        record.price = fieldSetFlags()[3] ? this.price : (java.lang.CharSequence) defaultValue(fields()[3]);
+        record.rating = fieldSetFlags()[4] ? this.rating : (java.lang.CharSequence) defaultValue(fields()[4]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -644,15 +572,13 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
   {
     out.writeString(this.id);
 
-    out.writeString(this.course);
+    out.writeString(this.name);
 
-    out.writeString(this.level);
+    out.writeString(this.brand);
 
-    out.writeString(this.price_max);
+    out.writeString(this.price);
 
-    out.writeString(this.duration_max);
-
-    out.writeString(this.lang);
+    out.writeString(this.rating);
 
   }
 
@@ -663,41 +589,35 @@ public class ExtractedProduct extends org.apache.avro.specific.SpecificRecordBas
     if (fieldOrder == null) {
       this.id = in.readString(this.id instanceof Utf8 ? (Utf8)this.id : null);
 
-      this.course = in.readString(this.course instanceof Utf8 ? (Utf8)this.course : null);
+      this.name = in.readString(this.name instanceof Utf8 ? (Utf8)this.name : null);
 
-      this.level = in.readString(this.level instanceof Utf8 ? (Utf8)this.level : null);
+      this.brand = in.readString(this.brand instanceof Utf8 ? (Utf8)this.brand : null);
 
-      this.price_max = in.readString(this.price_max instanceof Utf8 ? (Utf8)this.price_max : null);
+      this.price = in.readString(this.price instanceof Utf8 ? (Utf8)this.price : null);
 
-      this.duration_max = in.readString(this.duration_max instanceof Utf8 ? (Utf8)this.duration_max : null);
-
-      this.lang = in.readString(this.lang instanceof Utf8 ? (Utf8)this.lang : null);
+      this.rating = in.readString(this.rating instanceof Utf8 ? (Utf8)this.rating : null);
 
     } else {
-      for (int i = 0; i < 6; i++) {
+      for (int i = 0; i < 5; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.id = in.readString(this.id instanceof Utf8 ? (Utf8)this.id : null);
           break;
 
         case 1:
-          this.course = in.readString(this.course instanceof Utf8 ? (Utf8)this.course : null);
+          this.name = in.readString(this.name instanceof Utf8 ? (Utf8)this.name : null);
           break;
 
         case 2:
-          this.level = in.readString(this.level instanceof Utf8 ? (Utf8)this.level : null);
+          this.brand = in.readString(this.brand instanceof Utf8 ? (Utf8)this.brand : null);
           break;
 
         case 3:
-          this.price_max = in.readString(this.price_max instanceof Utf8 ? (Utf8)this.price_max : null);
+          this.price = in.readString(this.price instanceof Utf8 ? (Utf8)this.price : null);
           break;
 
         case 4:
-          this.duration_max = in.readString(this.duration_max instanceof Utf8 ? (Utf8)this.duration_max : null);
-          break;
-
-        case 5:
-          this.lang = in.readString(this.lang instanceof Utf8 ? (Utf8)this.lang : null);
+          this.rating = in.readString(this.rating instanceof Utf8 ? (Utf8)this.rating : null);
           break;
 
         default:
