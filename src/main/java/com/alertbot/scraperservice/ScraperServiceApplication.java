@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 
 
 @SpringBootApplication
-public class ScraperServiceApplication 
+public class ScraperServiceApplication {
     public static void main(String[] args) {
 
         SSLUtil.disableCertificateValidation();
