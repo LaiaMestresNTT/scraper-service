@@ -10,26 +10,26 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.UUID;
 
 
 @Service
 public class Scraper {
 
     private final ScrapedProductProducer scrapedProductProducer;
+    private final ProductStatusManager statusManager;
 
-    public Scraper(ScrapedProductProducer scrapedProductProducer) {
+    public Scraper(ScrapedProductProducer scrapedProductProducer, ProductStatusManager statusManager) {
         this.scrapedProductProducer = scrapedProductProducer;
+        this.statusManager = statusManager;
     }
 
     public void scrapeWeb(AlertProduct product) {
         SSLUtil.disableCertificateValidation();
         System.out.println("ADVERTENCIA: Validación SSL/TLS deshabilitada.");
 
-        // Codificar la búsqueda para la URL
-        /*String busqueda = "aspiradora sin cable";
-        String urlBusqueda = "https://www.amazon.es/s?k=" + busqueda.replace(" ", "+");*/
         int maxResultados = 15;
-        String id_busqueda = product.getId();
+        String requestID = product.getRequest_id();
 
         System.out.println("Buscando en: " + product.getURL_search());
 
@@ -39,6 +39,9 @@ public class Scraper {
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
                     .header("Accept-Language", "es-ES,es;q=0.9")
                     .get();
+
+            // CAMBIAMOS EL STATUS A SEARCHING
+            statusManager.updateToSearching(requestID);
 
             // 2. Definir el Selector CSS
             String selectorContenedor = ".s-result-item";// Un selector común y más estable
@@ -65,38 +68,44 @@ public class Scraper {
                     String urlCompleta = "https://www.amazon.es" + href;
 
                     // 7. Llamar al scraper de producto
-                    scrapeProduct(urlCompleta, id_busqueda);
+                    scrapeProduct(product);
 
                     contador++;
                 }
-
 
             }
 
             if (contador == 0) {
                 System.out.println("No se encontraron resultados con el selector: " + selectorContenedor);
+                statusManager.updateToFailed(requestID);
+            } else {
+                System.out.println("Búsqueda finalizada");
+                statusManager.updateToCompleted(requestID);
             }
+
 
 
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error al conectar o al leer la página. Amazon podría haber bloqueado la solicitud.");
+            statusManager.updateToFailed(requestID);
         }
     }
 
-    private void scrapeProduct(String url, String id_busqueda) {
+    private void scrapeProduct(AlertProduct product) {
         SSLUtil.disableCertificateValidation();
 
-        System.out.println("\n--- Buscando producto en: " + url + " ---");
+        System.out.println("\n--- Buscando producto en: " + product.getURL_search() + " ---");
 
         try {
             // 1. Conectar y obtener el Documento HTML
-            Document doc = Jsoup.connect(url)
+            Document doc = Jsoup.connect(product.getURL_search())
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
                     .header("Accept-Language", "es-ES,es;q=0.9")
                     .get();
 
             // Llamadas a las nuevas funciones de extracción
+            String productId = UUID.randomUUID().toString();
             String name = extractName(doc);
             String brand = extractBrand(doc);
             Double price = extractPrice(doc);
@@ -105,7 +114,7 @@ public class Scraper {
             // Imprimir resultado
             System.out.println("-> Nombre: " + name + " Marca: " + brand + " Precio: " + price + "Valoración: " + rating);
 
-            ScrapedProduct scrapedProduct = new ScrapedProduct(id_busqueda, name, url, brand, price, rating);
+            ScrapedProduct scrapedProduct = new ScrapedProduct(productId, product.getRequest_id(), product.getUser_id(), name, product.getURL_search(), brand, price, rating);
 
             /* MANDAR RESULTADO AL PRODUCTOR
                 scrapedProductProducer.sendMessage(scrapedProduct);

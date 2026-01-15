@@ -4,8 +4,10 @@ server:
 spring:
   main:
     web-application-type: none
+  mongo:
+    uri: mongodb://mongodb_container:27017/alertbot_db
   kafka:
-    bootstrap-servers: broker:29092
+    bootstrap-servers: broker:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer

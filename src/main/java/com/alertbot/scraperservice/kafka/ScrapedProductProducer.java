@@ -17,12 +17,13 @@ public class ScrapedProductProducer {
     public void sendMessage(ScrapedProduct scrapedProduct) {
 
         com.alertbot.avro.ScrapedProduct avroProduct = com.alertbot.avro.ScrapedProduct.newBuilder()
-                .setIdBusqueda(scrapedProduct.getId_busqueda())
+                .setProductId(scrapedProduct.getProductId())
+                .setRequestId(scrapedProduct.getRequestId())
+                .setUserId(scrapedProduct.getUserId())
                 .setName(scrapedProduct.getName())
                 .setBrand(scrapedProduct.getBrand())
                 .setPrice(scrapedProduct.getPrice())
                 .setRating(scrapedProduct.getRating())
-                .setUrl(scrapedProduct.getURL())
                 .build();
 
         try {

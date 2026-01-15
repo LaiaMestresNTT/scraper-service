@@ -1,8 +1,11 @@
 package com.alertbot.scraperservice.kafka;
 
+import com.alertbot.scraperservice.model.ProductStatus;
+import com.alertbot.scraperservice.service.ProductStatusManager;
 import com.alertbot.scraperservice.service.Scraper;
 import com.alertbot.avro.ExtractedProduct;
 import com.alertbot.scraperservice.model.AlertProduct;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +15,11 @@ public class ExtractedProductConsumer {
     private final String TOPIC = "nlp_results";
     private final String GROUP_ID = "nlp_results-group";
     private final Scraper scraper;
+    private final ProductStatusManager statusManager;
 
-    public ExtractedProductConsumer(Scraper scraper) {
+    public ExtractedProductConsumer(Scraper scraper, ProductStatusManager statusManager) {
         this.scraper = scraper;
+        this.statusManager = statusManager;
     }
 
     @KafkaListener(topics = TOPIC, groupId = GROUP_ID)
@@ -26,6 +31,8 @@ public class ExtractedProductConsumer {
         if (product != null) {
             System.out.println("✅ Mensaje Avro recibido al topic " + TOPIC + ": producto:" + product.getName() + " marca: "+ product.getBrand()+ " precio: " + product.getPrice()+ " valoracion: "+ product.getRating());
 
+            //ACTUALIZAR STATUS
+            statusManager.updateToSearching(product.getRequest_id());
             //LLAMAR AL SCRAPER
             scraper.scrapeWeb(product);
         }
@@ -33,7 +40,8 @@ public class ExtractedProductConsumer {
     }
 
     private AlertProduct buildAlertProduct (ExtractedProduct extractedProduct) {
-        String productChatId = extractedProduct.getId().toString();
+        String requestId = extractedProduct.getRequestId().toString();
+        String userId = extractedProduct.getUserId().toString();
 
         String requestedProduct = extractedProduct.getName().toString();
         if (requestedProduct.equals("no especificado")) {
@@ -46,7 +54,7 @@ public class ExtractedProductConsumer {
 
         String URL_search = "https://www.amazon.es/s?k=" + requestedProduct.replace(" ", "+");
 
-        return new AlertProduct(productChatId, requestedProduct, brand, price, rating, URL_search);
+        return new AlertProduct(requestId, userId, requestedProduct, brand, price, rating, URL_search, ProductStatus.SEARCHING);
     }
 
     private double parseDoubleSafe(Object value) {

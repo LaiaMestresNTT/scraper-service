@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 3095670607484270617L;
+  private static final long serialVersionUID = -5832172744668149347L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ScrapedProduct\",\"namespace\":\"com.alertbot.avro\",\"fields\":[{\"name\":\"id_busqueda\",\"type\":\"string\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"brand\",\"type\":\"string\"},{\"name\":\"price\",\"type\":\"double\"},{\"name\":\"rating\",\"type\":\"double\"},{\"name\":\"url\",\"type\":\"string\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ScrapedProduct\",\"namespace\":\"com.alertbot.avro\",\"fields\":[{\"name\":\"product_id\",\"type\":\"string\"},{\"name\":\"request_id\",\"type\":\"string\"},{\"name\":\"user_id\",\"type\":\"string\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"brand\",\"type\":\"string\"},{\"name\":\"price\",\"type\":\"double\"},{\"name\":\"rating\",\"type\":\"double\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -73,12 +73,13 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
     return DECODER.decode(b);
   }
 
-  private java.lang.CharSequence id_busqueda;
+  private java.lang.CharSequence product_id;
+  private java.lang.CharSequence request_id;
+  private java.lang.CharSequence user_id;
   private java.lang.CharSequence name;
   private java.lang.CharSequence brand;
   private double price;
   private double rating;
-  private java.lang.CharSequence url;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -89,20 +90,22 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
 
   /**
    * All-args constructor.
-   * @param id_busqueda The new value for id_busqueda
+   * @param product_id The new value for product_id
+   * @param request_id The new value for request_id
+   * @param user_id The new value for user_id
    * @param name The new value for name
    * @param brand The new value for brand
    * @param price The new value for price
    * @param rating The new value for rating
-   * @param url The new value for url
    */
-  public ScrapedProduct(java.lang.CharSequence id_busqueda, java.lang.CharSequence name, java.lang.CharSequence brand, java.lang.Double price, java.lang.Double rating, java.lang.CharSequence url) {
-    this.id_busqueda = id_busqueda;
+  public ScrapedProduct(java.lang.CharSequence product_id, java.lang.CharSequence request_id, java.lang.CharSequence user_id, java.lang.CharSequence name, java.lang.CharSequence brand, java.lang.Double price, java.lang.Double rating) {
+    this.product_id = product_id;
+    this.request_id = request_id;
+    this.user_id = user_id;
     this.name = name;
     this.brand = brand;
     this.price = price;
     this.rating = rating;
-    this.url = url;
   }
 
   @Override
@@ -115,12 +118,13 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
   @Override
   public java.lang.Object get(int field$) {
     switch (field$) {
-    case 0: return id_busqueda;
-    case 1: return name;
-    case 2: return brand;
-    case 3: return price;
-    case 4: return rating;
-    case 5: return url;
+    case 0: return product_id;
+    case 1: return request_id;
+    case 2: return user_id;
+    case 3: return name;
+    case 4: return brand;
+    case 5: return price;
+    case 6: return rating;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -130,31 +134,66 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: id_busqueda = (java.lang.CharSequence)value$; break;
-    case 1: name = (java.lang.CharSequence)value$; break;
-    case 2: brand = (java.lang.CharSequence)value$; break;
-    case 3: price = (java.lang.Double)value$; break;
-    case 4: rating = (java.lang.Double)value$; break;
-    case 5: url = (java.lang.CharSequence)value$; break;
+    case 0: product_id = (java.lang.CharSequence)value$; break;
+    case 1: request_id = (java.lang.CharSequence)value$; break;
+    case 2: user_id = (java.lang.CharSequence)value$; break;
+    case 3: name = (java.lang.CharSequence)value$; break;
+    case 4: brand = (java.lang.CharSequence)value$; break;
+    case 5: price = (java.lang.Double)value$; break;
+    case 6: rating = (java.lang.Double)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
 
   /**
-   * Gets the value of the 'id_busqueda' field.
-   * @return The value of the 'id_busqueda' field.
+   * Gets the value of the 'product_id' field.
+   * @return The value of the 'product_id' field.
    */
-  public java.lang.CharSequence getIdBusqueda() {
-    return id_busqueda;
+  public java.lang.CharSequence getProductId() {
+    return product_id;
   }
 
 
   /**
-   * Sets the value of the 'id_busqueda' field.
+   * Sets the value of the 'product_id' field.
    * @param value the value to set.
    */
-  public void setIdBusqueda(java.lang.CharSequence value) {
-    this.id_busqueda = value;
+  public void setProductId(java.lang.CharSequence value) {
+    this.product_id = value;
+  }
+
+  /**
+   * Gets the value of the 'request_id' field.
+   * @return The value of the 'request_id' field.
+   */
+  public java.lang.CharSequence getRequestId() {
+    return request_id;
+  }
+
+
+  /**
+   * Sets the value of the 'request_id' field.
+   * @param value the value to set.
+   */
+  public void setRequestId(java.lang.CharSequence value) {
+    this.request_id = value;
+  }
+
+  /**
+   * Gets the value of the 'user_id' field.
+   * @return The value of the 'user_id' field.
+   */
+  public java.lang.CharSequence getUserId() {
+    return user_id;
+  }
+
+
+  /**
+   * Sets the value of the 'user_id' field.
+   * @param value the value to set.
+   */
+  public void setUserId(java.lang.CharSequence value) {
+    this.user_id = value;
   }
 
   /**
@@ -226,23 +265,6 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
   }
 
   /**
-   * Gets the value of the 'url' field.
-   * @return The value of the 'url' field.
-   */
-  public java.lang.CharSequence getUrl() {
-    return url;
-  }
-
-
-  /**
-   * Sets the value of the 'url' field.
-   * @param value the value to set.
-   */
-  public void setUrl(java.lang.CharSequence value) {
-    this.url = value;
-  }
-
-  /**
    * Creates a new ScrapedProduct RecordBuilder.
    * @return A new ScrapedProduct RecordBuilder
    */
@@ -283,12 +305,13 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<ScrapedProduct>
     implements org.apache.avro.data.RecordBuilder<ScrapedProduct> {
 
-    private java.lang.CharSequence id_busqueda;
+    private java.lang.CharSequence product_id;
+    private java.lang.CharSequence request_id;
+    private java.lang.CharSequence user_id;
     private java.lang.CharSequence name;
     private java.lang.CharSequence brand;
     private double price;
     private double rating;
-    private java.lang.CharSequence url;
 
     /** Creates a new Builder */
     private Builder() {
@@ -301,29 +324,33 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
      */
     private Builder(com.alertbot.avro.ScrapedProduct.Builder other) {
       super(other);
-      if (isValidValue(fields()[0], other.id_busqueda)) {
-        this.id_busqueda = data().deepCopy(fields()[0].schema(), other.id_busqueda);
+      if (isValidValue(fields()[0], other.product_id)) {
+        this.product_id = data().deepCopy(fields()[0].schema(), other.product_id);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
-      if (isValidValue(fields()[1], other.name)) {
-        this.name = data().deepCopy(fields()[1].schema(), other.name);
+      if (isValidValue(fields()[1], other.request_id)) {
+        this.request_id = data().deepCopy(fields()[1].schema(), other.request_id);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
-      if (isValidValue(fields()[2], other.brand)) {
-        this.brand = data().deepCopy(fields()[2].schema(), other.brand);
+      if (isValidValue(fields()[2], other.user_id)) {
+        this.user_id = data().deepCopy(fields()[2].schema(), other.user_id);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
-      if (isValidValue(fields()[3], other.price)) {
-        this.price = data().deepCopy(fields()[3].schema(), other.price);
+      if (isValidValue(fields()[3], other.name)) {
+        this.name = data().deepCopy(fields()[3].schema(), other.name);
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
-      if (isValidValue(fields()[4], other.rating)) {
-        this.rating = data().deepCopy(fields()[4].schema(), other.rating);
+      if (isValidValue(fields()[4], other.brand)) {
+        this.brand = data().deepCopy(fields()[4].schema(), other.brand);
         fieldSetFlags()[4] = other.fieldSetFlags()[4];
       }
-      if (isValidValue(fields()[5], other.url)) {
-        this.url = data().deepCopy(fields()[5].schema(), other.url);
+      if (isValidValue(fields()[5], other.price)) {
+        this.price = data().deepCopy(fields()[5].schema(), other.price);
         fieldSetFlags()[5] = other.fieldSetFlags()[5];
+      }
+      if (isValidValue(fields()[6], other.rating)) {
+        this.rating = data().deepCopy(fields()[6].schema(), other.rating);
+        fieldSetFlags()[6] = other.fieldSetFlags()[6];
       }
     }
 
@@ -333,69 +360,153 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
      */
     private Builder(com.alertbot.avro.ScrapedProduct other) {
       super(SCHEMA$, MODEL$);
-      if (isValidValue(fields()[0], other.id_busqueda)) {
-        this.id_busqueda = data().deepCopy(fields()[0].schema(), other.id_busqueda);
+      if (isValidValue(fields()[0], other.product_id)) {
+        this.product_id = data().deepCopy(fields()[0].schema(), other.product_id);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.name)) {
-        this.name = data().deepCopy(fields()[1].schema(), other.name);
+      if (isValidValue(fields()[1], other.request_id)) {
+        this.request_id = data().deepCopy(fields()[1].schema(), other.request_id);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.brand)) {
-        this.brand = data().deepCopy(fields()[2].schema(), other.brand);
+      if (isValidValue(fields()[2], other.user_id)) {
+        this.user_id = data().deepCopy(fields()[2].schema(), other.user_id);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.price)) {
-        this.price = data().deepCopy(fields()[3].schema(), other.price);
+      if (isValidValue(fields()[3], other.name)) {
+        this.name = data().deepCopy(fields()[3].schema(), other.name);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.rating)) {
-        this.rating = data().deepCopy(fields()[4].schema(), other.rating);
+      if (isValidValue(fields()[4], other.brand)) {
+        this.brand = data().deepCopy(fields()[4].schema(), other.brand);
         fieldSetFlags()[4] = true;
       }
-      if (isValidValue(fields()[5], other.url)) {
-        this.url = data().deepCopy(fields()[5].schema(), other.url);
+      if (isValidValue(fields()[5], other.price)) {
+        this.price = data().deepCopy(fields()[5].schema(), other.price);
         fieldSetFlags()[5] = true;
+      }
+      if (isValidValue(fields()[6], other.rating)) {
+        this.rating = data().deepCopy(fields()[6].schema(), other.rating);
+        fieldSetFlags()[6] = true;
       }
     }
 
     /**
-      * Gets the value of the 'id_busqueda' field.
+      * Gets the value of the 'product_id' field.
       * @return The value.
       */
-    public java.lang.CharSequence getIdBusqueda() {
-      return id_busqueda;
+    public java.lang.CharSequence getProductId() {
+      return product_id;
     }
 
 
     /**
-      * Sets the value of the 'id_busqueda' field.
-      * @param value The value of 'id_busqueda'.
+      * Sets the value of the 'product_id' field.
+      * @param value The value of 'product_id'.
       * @return This builder.
       */
-    public com.alertbot.avro.ScrapedProduct.Builder setIdBusqueda(java.lang.CharSequence value) {
+    public com.alertbot.avro.ScrapedProduct.Builder setProductId(java.lang.CharSequence value) {
       validate(fields()[0], value);
-      this.id_busqueda = value;
+      this.product_id = value;
       fieldSetFlags()[0] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'id_busqueda' field has been set.
-      * @return True if the 'id_busqueda' field has been set, false otherwise.
+      * Checks whether the 'product_id' field has been set.
+      * @return True if the 'product_id' field has been set, false otherwise.
       */
-    public boolean hasIdBusqueda() {
+    public boolean hasProductId() {
       return fieldSetFlags()[0];
     }
 
 
     /**
-      * Clears the value of the 'id_busqueda' field.
+      * Clears the value of the 'product_id' field.
       * @return This builder.
       */
-    public com.alertbot.avro.ScrapedProduct.Builder clearIdBusqueda() {
-      id_busqueda = null;
+    public com.alertbot.avro.ScrapedProduct.Builder clearProductId() {
+      product_id = null;
       fieldSetFlags()[0] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'request_id' field.
+      * @return The value.
+      */
+    public java.lang.CharSequence getRequestId() {
+      return request_id;
+    }
+
+
+    /**
+      * Sets the value of the 'request_id' field.
+      * @param value The value of 'request_id'.
+      * @return This builder.
+      */
+    public com.alertbot.avro.ScrapedProduct.Builder setRequestId(java.lang.CharSequence value) {
+      validate(fields()[1], value);
+      this.request_id = value;
+      fieldSetFlags()[1] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'request_id' field has been set.
+      * @return True if the 'request_id' field has been set, false otherwise.
+      */
+    public boolean hasRequestId() {
+      return fieldSetFlags()[1];
+    }
+
+
+    /**
+      * Clears the value of the 'request_id' field.
+      * @return This builder.
+      */
+    public com.alertbot.avro.ScrapedProduct.Builder clearRequestId() {
+      request_id = null;
+      fieldSetFlags()[1] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'user_id' field.
+      * @return The value.
+      */
+    public java.lang.CharSequence getUserId() {
+      return user_id;
+    }
+
+
+    /**
+      * Sets the value of the 'user_id' field.
+      * @param value The value of 'user_id'.
+      * @return This builder.
+      */
+    public com.alertbot.avro.ScrapedProduct.Builder setUserId(java.lang.CharSequence value) {
+      validate(fields()[2], value);
+      this.user_id = value;
+      fieldSetFlags()[2] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'user_id' field has been set.
+      * @return True if the 'user_id' field has been set, false otherwise.
+      */
+    public boolean hasUserId() {
+      return fieldSetFlags()[2];
+    }
+
+
+    /**
+      * Clears the value of the 'user_id' field.
+      * @return This builder.
+      */
+    public com.alertbot.avro.ScrapedProduct.Builder clearUserId() {
+      user_id = null;
+      fieldSetFlags()[2] = false;
       return this;
     }
 
@@ -414,9 +525,9 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
       * @return This builder.
       */
     public com.alertbot.avro.ScrapedProduct.Builder setName(java.lang.CharSequence value) {
-      validate(fields()[1], value);
+      validate(fields()[3], value);
       this.name = value;
-      fieldSetFlags()[1] = true;
+      fieldSetFlags()[3] = true;
       return this;
     }
 
@@ -425,7 +536,7 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
       * @return True if the 'name' field has been set, false otherwise.
       */
     public boolean hasName() {
-      return fieldSetFlags()[1];
+      return fieldSetFlags()[3];
     }
 
 
@@ -435,7 +546,7 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
       */
     public com.alertbot.avro.ScrapedProduct.Builder clearName() {
       name = null;
-      fieldSetFlags()[1] = false;
+      fieldSetFlags()[3] = false;
       return this;
     }
 
@@ -454,9 +565,9 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
       * @return This builder.
       */
     public com.alertbot.avro.ScrapedProduct.Builder setBrand(java.lang.CharSequence value) {
-      validate(fields()[2], value);
+      validate(fields()[4], value);
       this.brand = value;
-      fieldSetFlags()[2] = true;
+      fieldSetFlags()[4] = true;
       return this;
     }
 
@@ -465,7 +576,7 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
       * @return True if the 'brand' field has been set, false otherwise.
       */
     public boolean hasBrand() {
-      return fieldSetFlags()[2];
+      return fieldSetFlags()[4];
     }
 
 
@@ -475,7 +586,7 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
       */
     public com.alertbot.avro.ScrapedProduct.Builder clearBrand() {
       brand = null;
-      fieldSetFlags()[2] = false;
+      fieldSetFlags()[4] = false;
       return this;
     }
 
@@ -494,9 +605,9 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
       * @return This builder.
       */
     public com.alertbot.avro.ScrapedProduct.Builder setPrice(double value) {
-      validate(fields()[3], value);
+      validate(fields()[5], value);
       this.price = value;
-      fieldSetFlags()[3] = true;
+      fieldSetFlags()[5] = true;
       return this;
     }
 
@@ -505,7 +616,7 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
       * @return True if the 'price' field has been set, false otherwise.
       */
     public boolean hasPrice() {
-      return fieldSetFlags()[3];
+      return fieldSetFlags()[5];
     }
 
 
@@ -514,7 +625,7 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
       * @return This builder.
       */
     public com.alertbot.avro.ScrapedProduct.Builder clearPrice() {
-      fieldSetFlags()[3] = false;
+      fieldSetFlags()[5] = false;
       return this;
     }
 
@@ -533,9 +644,9 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
       * @return This builder.
       */
     public com.alertbot.avro.ScrapedProduct.Builder setRating(double value) {
-      validate(fields()[4], value);
+      validate(fields()[6], value);
       this.rating = value;
-      fieldSetFlags()[4] = true;
+      fieldSetFlags()[6] = true;
       return this;
     }
 
@@ -544,7 +655,7 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
       * @return True if the 'rating' field has been set, false otherwise.
       */
     public boolean hasRating() {
-      return fieldSetFlags()[4];
+      return fieldSetFlags()[6];
     }
 
 
@@ -553,47 +664,7 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
       * @return This builder.
       */
     public com.alertbot.avro.ScrapedProduct.Builder clearRating() {
-      fieldSetFlags()[4] = false;
-      return this;
-    }
-
-    /**
-      * Gets the value of the 'url' field.
-      * @return The value.
-      */
-    public java.lang.CharSequence getUrl() {
-      return url;
-    }
-
-
-    /**
-      * Sets the value of the 'url' field.
-      * @param value The value of 'url'.
-      * @return This builder.
-      */
-    public com.alertbot.avro.ScrapedProduct.Builder setUrl(java.lang.CharSequence value) {
-      validate(fields()[5], value);
-      this.url = value;
-      fieldSetFlags()[5] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'url' field has been set.
-      * @return True if the 'url' field has been set, false otherwise.
-      */
-    public boolean hasUrl() {
-      return fieldSetFlags()[5];
-    }
-
-
-    /**
-      * Clears the value of the 'url' field.
-      * @return This builder.
-      */
-    public com.alertbot.avro.ScrapedProduct.Builder clearUrl() {
-      url = null;
-      fieldSetFlags()[5] = false;
+      fieldSetFlags()[6] = false;
       return this;
     }
 
@@ -602,12 +673,13 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
     public ScrapedProduct build() {
       try {
         ScrapedProduct record = new ScrapedProduct();
-        record.id_busqueda = fieldSetFlags()[0] ? this.id_busqueda : (java.lang.CharSequence) defaultValue(fields()[0]);
-        record.name = fieldSetFlags()[1] ? this.name : (java.lang.CharSequence) defaultValue(fields()[1]);
-        record.brand = fieldSetFlags()[2] ? this.brand : (java.lang.CharSequence) defaultValue(fields()[2]);
-        record.price = fieldSetFlags()[3] ? this.price : (java.lang.Double) defaultValue(fields()[3]);
-        record.rating = fieldSetFlags()[4] ? this.rating : (java.lang.Double) defaultValue(fields()[4]);
-        record.url = fieldSetFlags()[5] ? this.url : (java.lang.CharSequence) defaultValue(fields()[5]);
+        record.product_id = fieldSetFlags()[0] ? this.product_id : (java.lang.CharSequence) defaultValue(fields()[0]);
+        record.request_id = fieldSetFlags()[1] ? this.request_id : (java.lang.CharSequence) defaultValue(fields()[1]);
+        record.user_id = fieldSetFlags()[2] ? this.user_id : (java.lang.CharSequence) defaultValue(fields()[2]);
+        record.name = fieldSetFlags()[3] ? this.name : (java.lang.CharSequence) defaultValue(fields()[3]);
+        record.brand = fieldSetFlags()[4] ? this.brand : (java.lang.CharSequence) defaultValue(fields()[4]);
+        record.price = fieldSetFlags()[5] ? this.price : (java.lang.Double) defaultValue(fields()[5]);
+        record.rating = fieldSetFlags()[6] ? this.rating : (java.lang.Double) defaultValue(fields()[6]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -640,7 +712,11 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
   @Override public void customEncode(org.apache.avro.io.Encoder out)
     throws java.io.IOException
   {
-    out.writeString(this.id_busqueda);
+    out.writeString(this.product_id);
+
+    out.writeString(this.request_id);
+
+    out.writeString(this.user_id);
 
     out.writeString(this.name);
 
@@ -650,8 +726,6 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
 
     out.writeDouble(this.rating);
 
-    out.writeString(this.url);
-
   }
 
   @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
@@ -659,7 +733,11 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
   {
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
-      this.id_busqueda = in.readString(this.id_busqueda instanceof Utf8 ? (Utf8)this.id_busqueda : null);
+      this.product_id = in.readString(this.product_id instanceof Utf8 ? (Utf8)this.product_id : null);
+
+      this.request_id = in.readString(this.request_id instanceof Utf8 ? (Utf8)this.request_id : null);
+
+      this.user_id = in.readString(this.user_id instanceof Utf8 ? (Utf8)this.user_id : null);
 
       this.name = in.readString(this.name instanceof Utf8 ? (Utf8)this.name : null);
 
@@ -669,33 +747,35 @@ public class ScrapedProduct extends org.apache.avro.specific.SpecificRecordBase 
 
       this.rating = in.readDouble();
 
-      this.url = in.readString(this.url instanceof Utf8 ? (Utf8)this.url : null);
-
     } else {
-      for (int i = 0; i < 6; i++) {
+      for (int i = 0; i < 7; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
-          this.id_busqueda = in.readString(this.id_busqueda instanceof Utf8 ? (Utf8)this.id_busqueda : null);
+          this.product_id = in.readString(this.product_id instanceof Utf8 ? (Utf8)this.product_id : null);
           break;
 
         case 1:
-          this.name = in.readString(this.name instanceof Utf8 ? (Utf8)this.name : null);
+          this.request_id = in.readString(this.request_id instanceof Utf8 ? (Utf8)this.request_id : null);
           break;
 
         case 2:
-          this.brand = in.readString(this.brand instanceof Utf8 ? (Utf8)this.brand : null);
+          this.user_id = in.readString(this.user_id instanceof Utf8 ? (Utf8)this.user_id : null);
           break;
 
         case 3:
-          this.price = in.readDouble();
+          this.name = in.readString(this.name instanceof Utf8 ? (Utf8)this.name : null);
           break;
 
         case 4:
-          this.rating = in.readDouble();
+          this.brand = in.readString(this.brand instanceof Utf8 ? (Utf8)this.brand : null);
           break;
 
         case 5:
-          this.url = in.readString(this.url instanceof Utf8 ? (Utf8)this.url : null);
+          this.price = in.readDouble();
+          break;
+
+        case 6:
+          this.rating = in.readDouble();
           break;
 
         default:
