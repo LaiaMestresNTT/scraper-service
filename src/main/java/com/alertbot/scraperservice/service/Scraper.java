@@ -68,7 +68,7 @@ public class Scraper {
                     String urlCompleta = "https://www.amazon.es" + href;
 
                     // 7. Llamar al scraper de producto
-                    scrapeProduct(product);
+                    scrapeProduct(product, urlCompleta);
 
                     contador++;
                 }
@@ -92,14 +92,14 @@ public class Scraper {
         }
     }
 
-    private void scrapeProduct(AlertProduct product) {
+    private void scrapeProduct(AlertProduct product, String urlCompleta) {
         SSLUtil.disableCertificateValidation();
 
-        System.out.println("\n--- Buscando producto en: " + product.getURL_search() + " ---");
+        System.out.println("\n--- Buscando producto en: " + urlCompleta + " ---");
 
         try {
             // 1. Conectar y obtener el Documento HTML
-            Document doc = Jsoup.connect(product.getURL_search())
+            Document doc = Jsoup.connect(urlCompleta)
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
                     .header("Accept-Language", "es-ES,es;q=0.9")
                     .get();
@@ -114,11 +114,11 @@ public class Scraper {
             // Imprimir resultado
             System.out.println("-> Nombre: " + name + " Marca: " + brand + " Precio: " + price + "Valoración: " + rating);
 
-            ScrapedProduct scrapedProduct = new ScrapedProduct(productId, product.getRequest_id(), product.getUser_id(), name, product.getURL_search(), brand, price, rating);
+            ScrapedProduct scrapedProduct = new ScrapedProduct(productId, product.getRequest_id(), product.getUser_id(), name, urlCompleta, brand, price, rating);
 
-            /* MANDAR RESULTADO AL PRODUCTOR
-                scrapedProductProducer.sendMessage(scrapedProduct);
-            * */
+            //MANDAR RESULTADO AL PRODUCTOR
+            scrapedProductProducer.sendMessage(scrapedProduct);
+
 
 
         } catch (IOException e) {

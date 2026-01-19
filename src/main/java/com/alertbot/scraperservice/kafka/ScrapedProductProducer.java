@@ -13,7 +13,7 @@ public class ScrapedProductProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    // Manda el producto extraido por el Scraper al topico de productos_raw
+    // Manda el producto extraido por el Scraper al topico de "productos_raw"
     public void sendMessage(ScrapedProduct scrapedProduct) {
 
         com.alertbot.avro.ScrapedProduct avroProduct = com.alertbot.avro.ScrapedProduct.newBuilder()

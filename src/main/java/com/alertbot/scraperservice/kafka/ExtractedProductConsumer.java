@@ -9,6 +9,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 @Service
 public class ExtractedProductConsumer {
 
@@ -52,7 +55,9 @@ public class ExtractedProductConsumer {
         double price = parseDoubleSafe(extractedProduct.getPrice());
         double rating = parseDoubleSafe(extractedProduct.getRating());
 
-        String URL_search = "https://www.amazon.es/s?k=" + requestedProduct.replace(" ", "+");
+        String query = requestedProduct + " " + brand;
+        String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
+        String URL_search = "https://www.amazon.es/s?k=" + encodedQuery;
 
         return new AlertProduct(requestId, userId, requestedProduct, brand, price, rating, URL_search, ProductStatus.SEARCHING);
     }
