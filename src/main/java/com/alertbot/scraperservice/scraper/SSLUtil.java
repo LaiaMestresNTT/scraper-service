@@ -1,4 +1,4 @@
-package com.alertbot.scraperservice.service;
+package com.alertbot.scraperservice.scraper;
 
 import javax.net.ssl.*;
 import java.security.SecureRandom;

@@ -1,11 +1,10 @@
 package com.alertbot.scraperservice.kafka;
 
 import com.alertbot.scraperservice.model.ProductStatus;
-import com.alertbot.scraperservice.service.ProductStatusManager;
-import com.alertbot.scraperservice.service.Scraper;
+import com.alertbot.scraperservice.scraper.ProductStatusManager;
+import com.alertbot.scraperservice.scraper.Scraper;
 import com.alertbot.avro.ExtractedProduct;
 import com.alertbot.scraperservice.model.AlertProduct;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 

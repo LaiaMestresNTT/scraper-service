@@ -1,4 +1,4 @@
-package com.alertbot.scraperservice.service;
+package com.alertbot.scraperservice.scraper;
 
 import com.alertbot.scraperservice.model.ProductStatus;
 import org.springframework.data.mongodb.core.MongoTemplate;

@@ -1,11 +1,8 @@
 package com.alertbot.scraperservice;
 
-import com.alertbot.scraperservice.service.SSLUtil;
-import com.alertbot.scraperservice.service.Scraper;
-import org.springframework.boot.CommandLineRunner;
+import com.alertbot.scraperservice.scraper.SSLUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 
 @SpringBootApplication
