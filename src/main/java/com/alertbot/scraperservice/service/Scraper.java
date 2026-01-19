@@ -41,6 +41,7 @@ public class Scraper {
                     .get();
 
             // CAMBIAMOS EL STATUS A SEARCHING
+            System.out.println("\nCambiando el status a 'SEARCHING':");
             statusManager.updateToSearching(requestID);
 
             // 2. Definir el Selector CSS
@@ -77,9 +78,11 @@ public class Scraper {
 
             if (contador == 0) {
                 System.out.println("No se encontraron resultados con el selector: " + selectorContenedor);
+                System.out.println("\nCambiando el status a 'FAILED':");
                 statusManager.updateToFailed(requestID);
             } else {
                 System.out.println("Búsqueda finalizada");
+                System.out.println("\nCambiando el status a 'COMPLETED':");
                 statusManager.updateToCompleted(requestID);
             }
 
