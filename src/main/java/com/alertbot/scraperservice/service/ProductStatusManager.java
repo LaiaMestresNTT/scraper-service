@@ -1,6 +1,6 @@
 package com.alertbot.scraperservice.service;
+
 import com.alertbot.scraperservice.model.ProductStatus;
-import com.alertbot.scraperservice.model.ScrapedProduct;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
