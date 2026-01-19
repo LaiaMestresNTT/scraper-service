@@ -29,7 +29,7 @@ public class ExtractedProductConsumer {
         AlertProduct product = buildAlertProduct(extractedProduct);
 
         if (product != null) {
-            System.out.println("✅ Mensaje Avro recibido al topic " + TOPIC + ": nombre:" + product.getName() + " marca: "+ product.getBrand()+ " precio: " + product.getPrice()+ " valoracion: "+ product.getRating());
+            System.out.println("✅ Mensaje Avro recibido al topic " + TOPIC + ": nombre:" + product.getName() + " marca: "+ product.getBrand()+ " precio: " + product.getPrice()+ " valoración: "+ product.getRating());
 
             //ACTUALIZAR STATUS
             statusManager.updateToSearching(product.getRequest_id());
