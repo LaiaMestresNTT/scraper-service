@@ -56,42 +56,55 @@ public class Scraper {
     */
     public void scrapeWeb(AlertProduct product) {
         String requestID = product.getRequest_id();
-        //  CAMBIAR STATUS A SEARCHING
         statusManager.updateToSearching(requestID);
         int contador = 0;
 
         try {
-            SSLUtil.disableCertificateValidation();
-            System.out.println("ADVERTENCIA: Validación SSL/TLS deshabilitada .");
+            // Documento de búsqueda
             Document searchDoc = connect(product.getURL_search());
 
-            // Selector de todos los productos que evita anuncios (patrocinados)
-            Elements links = searchDoc.select("div[data-component-type='s-search-result'] h2 a.a-link-normal");
-            System.out.println("Links encontrados: " + links);
+            // 1. Seleccionar todos los elementos de resultado (Selector estable)
+            Elements resultados = searchDoc.select(".s-result-item");
 
-            for (Element link : links) {
+            System.out.println("DEBUG: Se han encontrado " + resultados.size() + " contenedores .s-result-item");
+
+            for (Element resultado : resultados) {
                 if (contador >= 5) break;
 
-                // Montar URL para producto específico
-                String urlCompleta = "https://www.amazon.es" + link.attr("href");
+                // 2. Buscar la etiqueta <a> que contiene un h2 (Lógica pedida)
+                Element enlaceElemento = resultado.selectFirst("a:has(h2)");
 
-                // Espera entre 1.5 y 3.5 segundos para no parecer un bot
-                Thread.sleep(1500 + (long)(Math.random() * 2000));
+                // Verificamos que el enlace existe y no es un anuncio vacío
+                if (enlaceElemento != null) {
+                    // 3. Extraer el atributo 'href'
+                    String href = enlaceElemento.attr("href");
 
-                // Verificamos si el producto ha sido extraído
-                if (processIndividualProduct(product, urlCompleta)) {
-                    contador++;
+                    // Evitar enlaces de publicidad externa que no empiezan por /
+                    if (href.startsWith("/")) {
+                        String urlCompleta = "https://www.amazon.es" + href;
+
+                        System.out.println("🔗 Procesando: " + urlCompleta);
+
+                        // Espera aleatoria para evitar el 503
+                        Thread.sleep(2000 + (long)(Math.random() * 3000));
+
+                        if (processIndividualProduct(product, urlCompleta)) {
+                            contador++;
+                        }
+                    }
                 }
             }
 
             if (contador > 0) {
                 statusManager.updateToCompleted(requestID);
             } else {
+                // Si llegamos aquí y resultados.size() era > 0, es que el selector a:has(h2) falló
+                System.out.println("⚠️ No se pudieron extraer enlaces válidos de los resultados.");
                 statusManager.updateToFailed(requestID);
             }
 
         } catch (Exception e) {
-            System.err.println("Error en proceso: " + e.getMessage());
+            System.err.println("❌ Error en proceso: " + e.getMessage());
             statusManager.updateToFailed(requestID);
         }
     }
