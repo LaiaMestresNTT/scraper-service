@@ -67,6 +67,7 @@ public class Scraper {
 
             // Selector de todos los productos que evita anuncios (patrocinados)
             Elements links = searchDoc.select("div[data-component-type='s-search-result'] h2 a.a-link-normal");
+            System.out.println("Links encontrados: " + links);
 
             for (Element link : links) {
                 if (contador >= 5) break;
