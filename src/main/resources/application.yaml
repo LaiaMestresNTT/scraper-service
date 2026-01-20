@@ -5,8 +5,8 @@ spring:
   main:
     web-application-type: none
   mongo:
-    #uri: mongodb://mongodb_container:27017/alertbot_db?replicaSet=rs0
-    uri: mongodb://mongodb_container:27017/alertbot_db
+    uri: mongodb://mongodb_container:27017/alertbot_db?replicaSet=rs0
+    #uri: mongodb://mongodb_container:27017/alertbot_db
   kafka:
     bootstrap-servers: broker:9092
     producer:

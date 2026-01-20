@@ -57,7 +57,8 @@ public class Scraper {
     public void scrapeWeb(AlertProduct product) {
         String requestID = product.getRequest_id();
         statusManager.updateToSearching(requestID);
-        int contador = 0;
+        int validProd_cont = 0;
+        int scrapedProd_count = 0;
 
         try {
             // Documento de búsqueda
@@ -69,7 +70,7 @@ public class Scraper {
             System.out.println("DEBUG: Se han encontrado " + resultados.size() + " contenedores .s-result-item");
 
             for (Element resultado : resultados) {
-                if (contador >= 5) break;
+                if (validProd_cont >= 5 || scrapedProd_count >= 20) break;
 
                 // 2. Buscar la etiqueta <a> que contiene un h2 (Lógica pedida)
                 Element enlaceElemento = resultado.selectFirst("a:has(h2)");
@@ -89,13 +90,15 @@ public class Scraper {
                         Thread.sleep(2000 + (long)(Math.random() * 3000));
 
                         if (processIndividualProduct(product, urlCompleta)) {
-                            contador++;
+                            validProd_cont++;
                         }
+                        scrapedProd_count++;
                     }
                 }
             }
 
-            if (contador > 0) {
+            if (validProd_cont > 0) {
+                System.out.println("✅ Se han extraído un total de : " + validProd_cont + " productos");
                 statusManager.updateToCompleted(requestID);
             } else {
                 // Si llegamos aquí y resultados.size() era > 0, es que el selector a:has(h2) falló
