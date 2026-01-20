@@ -19,6 +19,7 @@ public class Scraper {
     private final ScrapedProductProducer scrapedProductProducer;
     private final ProductStatusManager statusManager;
     private final LabelExtractor labelExtractor;
+    private java.util.Map<String, String> cookies = new java.util.HashMap<>();
 
     public Scraper(ScrapedProductProducer scrapedProductProducer, ProductStatusManager statusManager, LabelExtractor labelExtractor) {
         this.scrapedProductProducer = scrapedProductProducer;
@@ -27,11 +28,20 @@ public class Scraper {
     }
 
     private Document connect(String url) throws IOException {
-        return Jsoup.connect(url)
-                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
-                .header("Accept-Language", "es-ES,es;q=0.9")
-                .timeout(10000)
-                .get();
+        org.jsoup.Connection.Response response = Jsoup.connect(url)
+            .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+            .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8")
+            .header("Accept-Language", "es-ES,es;q=0.9")
+            .header("Accept-Encoding", "gzip, deflate, br")
+            .header("Connection", "keep-alive")
+            .header("Upgrade-Insecure-Requests", "1")
+            .header("Referer", "https://www.google.com/")
+            .cookies(cookies)
+            .method(org.jsoup.Connection.Method.GET)
+            .execute();
+
+        cookies.putAll(response.cookies());
+        return response.parse();
     }
 
     /* Etiquetas antiguas
@@ -59,7 +69,7 @@ public class Scraper {
             Elements links = searchDoc.select("div[data-component-type='s-search-result'] h2 a.a-link-normal");
 
             for (Element link : links) {
-                if (contador >= 15) break;
+                if (contador >= 5) break;
 
                 // Montar URL para producto específico
                 String urlCompleta = "https://www.amazon.es" + link.attr("href");
