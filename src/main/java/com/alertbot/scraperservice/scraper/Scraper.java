@@ -52,7 +52,7 @@ public class Scraper {
 
         try {
             SSLUtil.disableCertificateValidation();
-            System.out.println("ADVERTENCIA: Validación SSL/TLS deshabilitada.");
+            System.out.println("ADVERTENCIA: Validación SSL/TLS deshabilitada .");
             Document searchDoc = connect(product.getURL_search());
 
             // Selector de todos los productos que evita anuncios (patrocinados)
