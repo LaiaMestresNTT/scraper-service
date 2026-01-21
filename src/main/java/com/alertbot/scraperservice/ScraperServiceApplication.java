@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ScraperServiceApplication {
     public static void main(String[] args) {
 
-        SSLUtil.disableCertificateValidation();
-        System.out.println("ADVERTENCIA: Validación SSL/TLS deshabilitada.");
+        //SSLUtil.disableCertificateValidation();
+        //System.out.println("ADVERTENCIA: Validación SSL/TLS deshabilitada.");
 
         SpringApplication.run(ScraperServiceApplication.class, args);
 

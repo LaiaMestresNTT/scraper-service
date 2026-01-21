@@ -1,7 +1,7 @@
 package com.alertbot.scraperservice.kafka;
 
 import com.alertbot.scraperservice.model.ProductStatus;
-import com.alertbot.scraperservice.scraper.ProductStatusManager;
+import com.alertbot.scraperservice.mongo.ProductStatusManager;
 import com.alertbot.scraperservice.scraper.Scraper;
 import com.alertbot.avro.ExtractedProduct;
 import com.alertbot.scraperservice.model.AlertProduct;
