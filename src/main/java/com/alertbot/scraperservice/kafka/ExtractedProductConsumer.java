@@ -46,7 +46,7 @@ public class ExtractedProductConsumer {
         String userId = extractedProduct.getUserId().toString();
 
         String requestedProduct = extractedProduct.getName().toString();
-        if (requestedProduct.equals("no especificado")) {
+        if (requestedProduct.equals("null")) {
             return null;
         }
 
