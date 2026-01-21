@@ -16,9 +16,7 @@ public class ProductStatusManager {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public void updateToSearching(String requestId) {
-        updateStatus(requestId, ProductStatus.SEARCHING.name());
-    }
+    public void updateToSearching(String requestId) { updateStatus(requestId, ProductStatus.SEARCHING.name()); }
 
     public void updateToFailed(String requestId) {
         updateStatus(requestId, ProductStatus.FAILED.name());
@@ -29,7 +27,7 @@ public class ProductStatusManager {
     }
 
     private void updateStatus(String requestId, String status) {
-        Query query = new Query(Criteria.where("requestId").is(requestId));
+        Query query = new Query(Criteria.where("request_id").is(requestId));
         Update update = new Update().set("status", status);
         mongoTemplate.updateFirst(query, update, "product_requests");
     }

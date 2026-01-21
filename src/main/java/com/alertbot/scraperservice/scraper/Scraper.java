@@ -44,25 +44,17 @@ public class Scraper {
         return response.parse();
     }
 
-    /* Etiquetas antiguas
-        String selectorContenedor = ".s-result-item";// Un selector común y más estable
-
-        3. Seleccionar todos los elementos de resultado
-            Elements resultados = doc.select(selectorContenedor);
-        4. Buscar la etiqueta <a> dentro del contenedor actual
-            Element enlaceElemento = resultado.selectFirst("a:has(h2)");
-        5. Extraer el atributo 'href'
-            String href = enlaceElemento.attr("href");
-    */
     public void scrapeWeb(AlertProduct product) {
         String requestID = product.getRequest_id();
-        statusManager.updateToSearching(requestID);
         int validProd_cont = 0;
         int scrapedProd_count = 0;
 
         try {
             // Documento de búsqueda
             Document searchDoc = connect(product.getURL_search());
+
+            // Cambiar status en la base de datos del product request
+            statusManager.updateToSearching(requestID);
 
             // 1. Seleccionar todos los elementos de resultado (Selector estable)
             Elements resultados = searchDoc.select(".s-result-item");
@@ -84,7 +76,7 @@ public class Scraper {
                     if (href.startsWith("/")) {
                         String urlCompleta = "https://www.amazon.es" + href;
 
-                        System.out.println("🔗 Procesando: " + urlCompleta);
+                        System.out.println("🔗 Procesando: " + scrapedProd_count + "/20");
 
                         // Espera aleatoria para evitar el 503
                         Thread.sleep(2000 + (long)(Math.random() * 3000));
@@ -115,7 +107,7 @@ public class Scraper {
     private boolean processIndividualProduct(AlertProduct target, String url) {
         try {
             SSLUtil.disableCertificateValidation();
-            System.out.println("ADVERTENCIA: Validación SSL/TLS deshabilitada.");
+
             Document doc = connect(url);
 
             // Extracción de datos
@@ -126,8 +118,8 @@ public class Scraper {
 
             // Verificación de datos
             boolean matchesBrand = brand.equalsIgnoreCase(target.getBrand());
-            boolean matchesPrice = price > 0 && price <= target.getPrice();
-            boolean matchesRating = rating >= target.getRating();
+            boolean matchesPrice = target.getPrice() == 0.0 || price <= target.getPrice();
+            boolean matchesRating = target.getRating() == 0.0 || rating >= target.getRating();
 
             if (matchesBrand && matchesPrice && matchesRating) {
                 ScrapedProduct result = new ScrapedProduct(UUID.randomUUID().toString(), target.getRequest_id(), target.getUser_id(), name, url, brand, price, rating);
