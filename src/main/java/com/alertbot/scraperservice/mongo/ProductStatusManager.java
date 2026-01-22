@@ -1,5 +1,6 @@
 package com.alertbot.scraperservice.mongo;
 
+import com.alertbot.scraperservice.model.AlertProduct;
 import com.alertbot.scraperservice.model.ProductStatus;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -30,5 +31,17 @@ public class ProductStatusManager {
         Query query = new Query(Criteria.where("request_id").is(requestId));
         Update update = new Update().set("status", status);
         mongoTemplate.updateFirst(query, update, "product_requests");
+    }
+
+    public void manageScrapingResult(AlertProduct product, Boolean iscomlpleted) {
+
+        if (iscomlpleted){
+            updateToCompleted(product.getRequestId()); // Cambiamos status en la base de datos
+            product.setStatus(ProductStatus.COMPLETED); // Cambiamos status del objeto para mandarlo actualizado al topic
+        } else {
+            updateToFailed(product.getRequestId()); // Cambiamos status en la base de datos
+            product.setStatus(ProductStatus.FAILED); // Cambiamos status del objeto para mandarlo actualizado al topic
+        }
+
     }
 }

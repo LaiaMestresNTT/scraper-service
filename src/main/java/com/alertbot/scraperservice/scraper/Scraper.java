@@ -1,5 +1,6 @@
 package com.alertbot.scraperservice.scraper;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
 import com.alertbot.scraperservice.kafka.ConfirmationProducer;
 import com.alertbot.scraperservice.model.AlertProduct;
 import com.alertbot.scraperservice.model.ScrapedProduct;
@@ -52,6 +53,7 @@ public class Scraper {
         String requestID = product.getRequestId();
         int validProd_count = 0;
         int scrapedProd_count = 0;
+        boolean iscompleted = false;
 
         try {
             // Documento de búsqueda
@@ -93,31 +95,17 @@ public class Scraper {
                 }
             }
 
-            if (validProd_count > 0) {
-                System.out.println("✅ Se han extraído un total de : " + validProd_count + " productos");
-                statusManager.updateToCompleted(requestID);
-                // MANDAMOS CONFIRMACIÓN AL TOPICO
-                confirmationProducer.sendMessage(product, validProd_count);
-            } else {
-                // Si llegamos aquí y resultados.size() era > 0, es que el selector falló
-                System.out.println("⚠️ No se pudieron extraer enlaces válidos de los resultados.");
-                statusManager.updateToFailed(requestID);
-                // MANDAMOS CONFIRMACIÓN AL TOPICO
-                confirmationProducer.sendMessage(product, validProd_count);
-            }
+            System.out.println(manageResult(product, validProd_count, iscompleted, null));
+
 
         } catch (Exception e) {
-            System.err.println("❌ Error en proceso: " + e.getMessage());
-            statusManager.updateToFailed(requestID);
-            // MANDAMOS CONFIRMACIÓN AL TOPICO
-            confirmationProducer.sendMessage(product, validProd_count);
+            manageResult(product, validProd_count, iscompleted, e.getMessage());
         }
     }
 
     private boolean processIndividualProduct(AlertProduct target, String url) {
         try {
             //SSLUtil.disableCertificateValidation();
-
             Document doc = connect(url);
 
             // Extracción de datos
@@ -144,6 +132,26 @@ public class Scraper {
             System.err.println("Error al acceder a producto: " + url);
         }
         return false;
+    }
+
+    private String manageResult(AlertProduct product, int validProd_count, boolean iscompleted, String err) {
+        String log;
+
+        if (validProd_count > 0) {
+            iscompleted = true;
+            log = "✅ Se han extraído un total de : \" + validProd_count + \" productos";
+        } else if (!err.isEmpty()) {
+            log = "❌ Error en proceso: " + err;
+        } else {
+            log = "⚠️ No se pudieron extraer enlaces válidos de los resultados.";
+        }
+
+        // ACTUALIZAMOS STATUS
+        statusManager.manageScrapingResult(product, iscompleted);
+        // MANDAMOS CONFIRMACIÓN AL TOPIC
+        confirmationProducer.sendMessage(product, validProd_count);
+
+        return log;
     }
 
 }
