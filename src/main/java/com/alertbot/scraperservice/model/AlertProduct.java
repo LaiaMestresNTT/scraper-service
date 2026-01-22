@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class AlertProduct {
 
-    private String request_id;
-    private String user_id;
+    private String requestId;
+    private String userId;
     private String name;
     private String brand;
     private double price;
@@ -16,9 +16,9 @@ public class AlertProduct {
 
     public AlertProduct(){}
 
-    public AlertProduct(String request_id, String user_id, String name, String brand, double price, double rating, String URL_search, ProductStatus status) {
-        this.request_id = request_id;
-        this.user_id = user_id;
+    public AlertProduct(String requestId, String userId, String name, String brand, double price, double rating, String URL_search, ProductStatus status) {
+        this.requestId = requestId;
+        this.userId = userId;
         this.name = name;
         this.brand = brand;
         this.price = price;

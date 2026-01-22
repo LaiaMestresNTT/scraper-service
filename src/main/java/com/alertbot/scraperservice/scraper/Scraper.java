@@ -22,7 +22,7 @@ public class Scraper {
     private final ProductStatusManager statusManager;
     private final LabelExtractor labelExtractor;
     private final ScrapedProductRepository productRepository;
-    private java.util.Map<String, String> cookies = new java.util.HashMap<>();
+    private final java.util.Map<String, String> cookies = new java.util.HashMap<>();
 
     public Scraper(ConfirmationProducer confirmationProducer, ProductStatusManager statusManager, LabelExtractor labelExtractor, ScrapedProductRepository productRepository) {
         this.confirmationProducer = confirmationProducer;
@@ -49,7 +49,7 @@ public class Scraper {
     }
 
     public void scrapeWeb(AlertProduct product) {
-        String requestID = product.getRequest_id();
+        String requestID = product.getRequestId();
         int validProd_count = 0;
         int scrapedProd_count = 0;
 
@@ -132,11 +132,11 @@ public class Scraper {
             boolean matchesRating = target.getRating() == 0.0 || rating >= target.getRating();
 
             if (matchesBrand && matchesPrice && matchesRating) {
-                ScrapedProduct result = new ScrapedProduct(UUID.randomUUID().toString(), target.getRequest_id(), target.getUser_id(), name, url, brand, price, rating);
+                ScrapedProduct result = new ScrapedProduct(UUID.randomUUID().toString(), target.getRequestId(), target.getUserId(), name, url, brand, price, rating);
 
                 // Guardamos el producto encontrado en la base de datos
                 productRepository.save(result);
-                System.out.println("🚀 Producto guardado en la base de datos --> ID: " + result.getProduct_id());
+                System.out.println("🚀 Producto guardado en la base de datos --> ID: " + result.getProductId());
                 return true;
             }
 

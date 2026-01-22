@@ -19,8 +19,8 @@ public class ConfirmationProducer {
     public void sendMessage(AlertProduct alertProduct, int validProd_cont) {
 
         ConfirmScraped confirmationMessage = ConfirmScraped.newBuilder()
-                .setRequestId(alertProduct.getRequest_id())
-                .setUserId(alertProduct.getUser_id())
+                .setRequestId(alertProduct.getRequestId())
+                .setUserId(alertProduct.getUserId())
                 .setProductCount(validProd_cont)
                 .setStatus(alertProduct.getStatus().toString())
                 .build();
