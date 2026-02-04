@@ -57,12 +57,13 @@ public class Scraper {
         boolean iscompleted = false;
 
         try {
-            System.out.println("DEBUG: Entramos al try");
             // Documento de búsqueda
             Document searchDoc = connect(product.getURL_search());
+            System.out.println("DEBUG: Se conecta");
 
             // Cambiar status en la base de datos del product request
             statusManager.updateToSearching(requestID);
+            System.out.println("DEBUG: Cambio de status");
 
             // 1. Seleccionar todos los elementos de resultado (Selector estable)
             Elements resultados = searchDoc.select(".s-result-item");
@@ -106,6 +107,7 @@ public class Scraper {
     }
 
     private boolean processIndividualProduct(AlertProduct target, String url) {
+        System.out.println("DEBUG: Entramos a 1 elemento");
         try {
             //SSLUtil.disableCertificateValidation();
             Document doc = connect(url);
