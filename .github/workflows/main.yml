@@ -105,6 +105,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           # Descomenta para multi-arch:
           platforms: linux/amd64,linux/arm64
+          # Cache inline
+          cache-from: type=registry,ref=docker.io/${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
+          cache-to: type=inline
  
       - name: Mostrar tags publicados
         if: ${{ github.event_name != 'pull_request' }}
