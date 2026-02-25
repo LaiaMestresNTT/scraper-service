@@ -151,7 +151,7 @@ public class Scraper {
 
         if (validProd_count > 0) {
             iscompleted = true;
-            log = "✅ Se han extraído un total de : \" + validProd_count + \" productos";
+            log = "✅ Se han extraído un total de : " + validProd_count + " productos";
         } else if (!err.isEmpty()) {
             log = "❌ Error en proceso: " + err;
         } else {
