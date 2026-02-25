@@ -69,19 +69,15 @@ public class Scraper {
         boolean iscompleted = false;
 
         try {
-            System.out.println("DEBUG: Entramos en el try");
             // Documento de búsqueda
             Document searchDoc = connect(product.getURL_search());
-            System.out.println("DEBUG: Se conecta");
 
             // Cambiar status en la base de datos del product request
             statusManager.updateToSearching(requestID);
-            System.out.println("DEBUG: Cambio de status");
 
             // 1. Seleccionar todos los elementos de resultado (Selector estable)
             Elements resultados = searchDoc.select(".s-result-item");
 
-            System.out.println("DEBUG: Se han encontrado " + resultados.size() + " resultados");
 
             for (Element resultado : resultados) {
                 if (validProd_count >= 5 || scrapedProd_count >= 20) break;
@@ -120,7 +116,6 @@ public class Scraper {
     }
 
     private boolean processIndividualProduct(AlertProduct target, String url) {
-        System.out.println("DEBUG: Entramos a 1 elemento");
         try {
             //SSLUtil.disableCertificateValidation();
             Document doc = connect(url);
