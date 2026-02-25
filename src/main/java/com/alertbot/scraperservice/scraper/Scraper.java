@@ -50,13 +50,14 @@ public class Scraper {
     }
 
     public void scrapeWeb(AlertProduct product) {
-        System.out.println("DEBUG: Llegamos a la función");
+
         String requestID = product.getRequestId();
         int validProd_count = 0;
         int scrapedProd_count = 0;
         boolean iscompleted = false;
 
         try {
+            System.out.println("DEBUG: Entramos en el try");
             // Documento de búsqueda
             Document searchDoc = connect(product.getURL_search());
             System.out.println("DEBUG: Se conecta");
