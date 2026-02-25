@@ -33,20 +33,32 @@ public class Scraper {
     }
 
     private Document connect(String url) throws IOException {
-        org.jsoup.Connection.Response response = Jsoup.connect(url)
-            .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-            .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8")
-            .header("Accept-Language", "es-ES,es;q=0.9")
-            .header("Accept-Encoding", "gzip, deflate, br")
-            .header("Connection", "keep-alive")
-            .header("Upgrade-Insecure-Requests", "1")
-            .header("Referer", "https://www.google.com/")
-            .cookies(cookies)
-            .method(org.jsoup.Connection.Method.GET)
-            .execute();
+        try {
+            org.jsoup.Connection.Response response = Jsoup.connect(url)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36") // User Agent más moderno
+                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8")
+                    .header("Accept-Language", "es-ES,es;q=0.9")
+                    .header("Cache-Control", "max-age=0")
+                    .cookies(cookies)
+                    .timeout(15000) // Amazon a veces tarda en responder
+                    .followRedirects(true)
+                    .ignoreHttpErrors(true) // Para que no lance excepción y podamos leer el código
+                    .execute();
 
-        cookies.putAll(response.cookies());
-        return response.parse();
+            if (response.statusCode() == 503) {
+                throw new IOException("Amazon detectó el bot (Error 503 - Captcha)");
+            }
+
+            if (response.statusCode() == 403) {
+                throw new IOException("Acceso denegado (Error 403 - Bloqueo de IP)");
+            }
+
+            cookies.putAll(response.cookies());
+            return response.parse();
+        } catch (IOException e) {
+            System.err.println("❌ Error conectando a: " + url + " | Motivo: " + e.getMessage());
+            throw e;
+        }
     }
 
     public void scrapeWeb(AlertProduct product) {
