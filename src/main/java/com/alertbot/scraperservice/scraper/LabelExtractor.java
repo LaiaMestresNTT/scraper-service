@@ -52,4 +52,23 @@ public class LabelExtractor {
         }
         return 0.0;
     }
+
+    public int extractReviewCount(Document doc) {
+        Element reviewsElement = doc.selectFirst("#acrCustomerReviewText");
+
+        if (reviewsElement != null) {
+            try {
+                String rawText = reviewsElement.text().trim();
+                String digitsOnly = rawText.replaceAll("[^0-9]", "");
+
+                if (!digitsOnly.isEmpty()) {
+                    return Integer.parseInt(digitsOnly);
+                }
+            } catch (NumberFormatException e) {
+                return 0;
+            }
+        }
+        return 0;
+    }
+
 }

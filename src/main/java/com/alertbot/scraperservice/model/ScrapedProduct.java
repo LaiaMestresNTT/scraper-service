@@ -1,11 +1,15 @@
 package com.alertbot.scraperservice.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "scraped_products")
 public class ScrapedProduct {
 
@@ -21,19 +25,8 @@ public class ScrapedProduct {
     private String brand;
     private double price;
     private double rating;
+    private int ratingCount;
+    private double score;
 
-    public ScrapedProduct() {
-    }
-
-    public ScrapedProduct(String productId, String requestId, String userId, String name, String URL, String brand, double price, double rating) {
-        this.productId = productId;
-        this.requestId = requestId;
-        this.userId = userId;
-        this.name = name;
-        this.URL = URL;
-        this.brand = brand;
-        this.price = price;
-        this.rating = rating;
-    }
 
 }

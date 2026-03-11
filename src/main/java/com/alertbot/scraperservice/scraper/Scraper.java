@@ -1,11 +1,11 @@
 package com.alertbot.scraperservice.scraper;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
 import com.alertbot.scraperservice.kafka.ConfirmationProducer;
 import com.alertbot.scraperservice.model.AlertProduct;
 import com.alertbot.scraperservice.model.ScrapedProduct;
 import com.alertbot.scraperservice.mongo.ProductStatusManager;
 import com.alertbot.scraperservice.mongo.ScrapedProductRepository;
+import com.alertbot.scraperservice.scorer.Scoring;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,12 +24,14 @@ public class Scraper {
     private final LabelExtractor labelExtractor;
     private final ScrapedProductRepository productRepository;
     private final java.util.Map<String, String> cookies = new java.util.HashMap<>();
+    private final Scoring score;
 
-    public Scraper(ConfirmationProducer confirmationProducer, ProductStatusManager statusManager, LabelExtractor labelExtractor, ScrapedProductRepository productRepository) {
+    public Scraper(ConfirmationProducer confirmationProducer, ProductStatusManager statusManager, LabelExtractor labelExtractor, ScrapedProductRepository productRepository, Scoring score) {
         this.confirmationProducer = confirmationProducer;
         this.statusManager = statusManager;
         this.labelExtractor = labelExtractor;
         this.productRepository = productRepository;
+        this.score = score;
     }
 
     private Document connect(String url) throws IOException {
@@ -125,14 +127,22 @@ public class Scraper {
             String brand = labelExtractor.extractBrand(doc);
             double price = labelExtractor.extractPrice(doc);
             double rating = labelExtractor.extractRating(doc);
+            int ratingCount = labelExtractor.extractReviewCount(doc);
+
+            // Calculamos el score
+            double finalScore = score.calculateScore(rating, ratingCount);
+
+            // Definimos un mínimo de score para poder procesarlo
+            double MIN_SCORE = 7.5;
 
             // Verificación de datos
             boolean matchesBrand = brand.equalsIgnoreCase(target.getBrand());
             boolean matchesPrice = target.getPrice() == 0.0 || price <= target.getPrice();
             boolean matchesRating = target.getRating() == 0.0 || rating >= target.getRating();
+            boolean isHighQuality = finalScore >= MIN_SCORE;
 
-            if (matchesBrand && matchesPrice && matchesRating) {
-                ScrapedProduct result = new ScrapedProduct(UUID.randomUUID().toString(), target.getRequestId(), target.getUserId(), name, url, brand, price, rating);
+            if (matchesBrand && matchesPrice && matchesRating && isHighQuality) {
+                ScrapedProduct result = new ScrapedProduct(UUID.randomUUID().toString(), target.getRequestId(), target.getUserId(), name, url, brand, price, rating, ratingCount, finalScore);
 
                 // Guardamos el producto encontrado en la base de datos
                 productRepository.save(result);
