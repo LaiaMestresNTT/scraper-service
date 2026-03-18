@@ -193,7 +193,7 @@ public class Scraper {
         if (validProd_count > 0) {
             iscompleted = true;
             log = "✅ Se han extraído un total de : " + validProd_count + " productos";
-        } else if (!err.isEmpty()) {
+        } else if (err != null && !err.isEmpty()) {
             log = "❌ Error en proceso: " + err;
         } else {
             log = "⚠️ No se pudieron extraer enlaces válidos de los resultados.";
