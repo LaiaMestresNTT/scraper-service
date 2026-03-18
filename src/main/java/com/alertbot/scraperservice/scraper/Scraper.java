@@ -113,7 +113,9 @@ public class Scraper {
 
 
         } catch (Exception e) {
-            manageResult(product, validProd_count, iscompleted, e.getMessage());
+            e.printStackTrace(); // añadir esto temporalmente
+            manageResult(product, validProd_count, iscompleted,
+                    e.getMessage() != null ? e.getMessage() : e.getClass().getName());
         }
     }
 
