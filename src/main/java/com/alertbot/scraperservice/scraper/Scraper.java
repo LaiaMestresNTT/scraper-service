@@ -13,6 +13,8 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 
@@ -25,6 +27,13 @@ public class Scraper {
     private final ScrapedProductRepository productRepository;
     private final java.util.Map<String, String> cookies = new java.util.HashMap<>();
     private final Scoring score;
+    private static final Random random = new Random();
+    private static final List<String> USER_AGENTS = List.of(
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+    );
 
     public Scraper(ConfirmationProducer confirmationProducer, ProductStatusManager statusManager, LabelExtractor labelExtractor, ScrapedProductRepository productRepository, Scoring score) {
         this.confirmationProducer = confirmationProducer;
@@ -34,29 +43,47 @@ public class Scraper {
         this.score = score;
     }
 
+
     private Document connect(String url) throws IOException {
+        String userAgent = USER_AGENTS.get(random.nextInt(USER_AGENTS.size()));
         try {
             org.jsoup.Connection.Response response = Jsoup.connect(url)
-                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36") // User Agent más moderno
+                    .userAgent(userAgent)
                     .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8")
-                    .header("Accept-Language", "es-ES,es;q=0.9")
-                    .header("Cache-Control", "max-age=0")
+                    .header("Accept-Language", "es-ES,es;q=0.9,en;q=0.8")
+                    .header("Accept-Encoding", "gzip, deflate, br")
+                    .header("Cache-Control", "no-cache")
+                    .header("Pragma", "no-cache")
+                    .header("Sec-Ch-Ua", "\"Chromium\";v=\"122\", \"Not(A:Brand\";v=\"24\", \"Google Chrome\";v=\"122\"")
+                    .header("Sec-Ch-Ua-Mobile", "?0")
+                    .header("Sec-Ch-Ua-Platform", "\"Windows\"")
+                    .header("Sec-Fetch-Dest", "document")
+                    .header("Sec-Fetch-Mode", "navigate")
+                    .header("Sec-Fetch-Site", "none")
+                    .header("Sec-Fetch-User", "?1")
+                    .header("Upgrade-Insecure-Requests", "1")
                     .cookies(cookies)
-                    .timeout(15000) // Amazon a veces tarda en responder
+                    .timeout(15000)
                     .followRedirects(true)
-                    .ignoreHttpErrors(true) // Para que no lance excepción y podamos leer el código
+                    .ignoreHttpErrors(true)
                     .execute();
 
             if (response.statusCode() == 503) {
                 throw new IOException("Amazon detectó el bot (Error 503 - Captcha)");
             }
-
             if (response.statusCode() == 403) {
                 throw new IOException("Acceso denegado (Error 403 - Bloqueo de IP)");
             }
 
+            // Detectar página de captcha en el HTML
+            Document doc = response.parse();
+            if (doc.select("form[action='/errors/validateCaptcha']").first() != null) {
+                throw new IOException("Amazon mostró captcha en el HTML");
+            }
+
             cookies.putAll(response.cookies());
-            return response.parse();
+            return doc;
+
         } catch (IOException e) {
             System.err.println("❌ Error conectando a: " + url + " | Motivo: " + e.getMessage());
             throw e;
@@ -71,6 +98,8 @@ public class Scraper {
         boolean iscompleted = false;
 
         try {
+            // Añadimos un pausa antes de empezar
+            Thread.sleep(1000 + (long)(Math.random() * 2000));
             // Documento de búsqueda
             Document searchDoc = connect(product.getURL_search());
 
