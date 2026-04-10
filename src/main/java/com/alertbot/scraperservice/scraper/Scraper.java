@@ -49,11 +49,6 @@ public class Scraper {
         try {
             org.jsoup.Connection.Response response = Jsoup.connect(url)
                     .userAgent(userAgent)
-                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8")
-                    .header("Accept-Language", "es-ES,es;q=0.9,en;q=0.8")
-                    .header("Accept-Encoding", "gzip, deflate, br")
-                    .header("Cache-Control", "no-cache")
-                    .header("Pragma", "no-cache")
                     .header("Sec-Ch-Ua", "\"Chromium\";v=\"122\", \"Not(A:Brand\";v=\"24\", \"Google Chrome\";v=\"122\"")
                     .header("Sec-Ch-Ua-Mobile", "?0")
                     .header("Sec-Ch-Ua-Platform", "\"Windows\"")
@@ -62,6 +57,12 @@ public class Scraper {
                     .header("Sec-Fetch-Site", "none")
                     .header("Sec-Fetch-User", "?1")
                     .header("Upgrade-Insecure-Requests", "1")
+                    .header("Referer", "https://www.google.com/")
+                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8")
+                    .header("Accept-Language", "es-ES,es;q=0.9,en;q=0.8")
+                    .header("Accept-Encoding", "gzip, deflate, br")
+                    .header("Cache-Control", "no-cache")
+                    .header("Pragma", "no-cache")
                     .cookies(cookies)
                     .timeout(15000)
                     .followRedirects(true)
@@ -98,13 +99,22 @@ public class Scraper {
         boolean iscompleted = false;
 
         try {
-            // Añadimos un pausa antes de empezar
-            Thread.sleep(1000 + (long)(Math.random() * 2000));
+            // Añadimos un pausa random antes de empezar
+            long delay = 3000 + random.nextInt(5000);
+            Thread.sleep(delay);
+
             // Documento de búsqueda
             Document searchDoc = connect(product.getURL_search());
 
             // Cambiar status en la base de datos del product request
             statusManager.updateToSearching(requestID);
+
+            // Detectar bloquo de Amazon
+            if (searchDoc.title().contains("Captcha") || searchDoc.title().contains("Robot Check")) {
+                // Borrar cookies y cambiar IP/User-Agent
+                cookies.clear();
+                throw new IOException("Bloqueo por Captcha detectado");
+            }
 
             // 1. Seleccionar todos los elementos de resultado (Selector estable)
             Elements resultados = searchDoc.select(".s-result-item");
