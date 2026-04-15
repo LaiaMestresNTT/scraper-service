@@ -31,7 +31,7 @@ public class ExtractedProductConsumer {
         AlertProduct product = buildAlertProduct(extractedProduct);
 
         if (product != null) {
-            System.out.println("✅ Mensaje Avro recibido al topic " + TOPIC + ": nombre:" + product.getName() + " marca: "+ product.getBrand()+ " precio: " + product.getPrice()+ " valoración: "+ product.getRating());
+            System.out.println("✅ Mensaje Avro recibido al topic " + TOPIC + ": nombre:" + product.getName() + " marca: "+ product.getBrand()+ " precio: " + product.getPrice() + " valoración: "+ product.getRating() + " URL: "+ product.getURL_search());
 
             //LLAMAR AL SCRAPER
             scraper.scrapeWeb(product);
@@ -58,8 +58,6 @@ public class ExtractedProductConsumer {
         }
         String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
         String URL_search = "https://www.amazon.es/s?k=" + encodedQuery;
-
-        System.out.println("URL busqueda" + URL_search);
 
         return new AlertProduct(requestId, userId, requestedProduct, brand, price, rating, URL_search, ProductStatus.SEARCHING);
     }
