@@ -59,6 +59,8 @@ public class ExtractedProductConsumer {
         String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
         String URL_search = "https://www.amazon.es/s?k=" + encodedQuery;
 
+        System.out.println("URL busqueda" + URL_search);
+
         return new AlertProduct(requestId, userId, requestedProduct, brand, price, rating, URL_search, ProductStatus.SEARCHING);
     }
 
