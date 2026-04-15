@@ -53,8 +53,8 @@ public class ExtractedProductConsumer {
         double rating = parseDoubleSafe(extractedProduct.getRating());
 
         String query = requestedProduct;
-        if (!brand.equals("no especificado")) {
-            query = " " + brand;
+        if (!"no especificado".equals(brand)) {
+            query +=  " " + brand;
         }
         String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
         String URL_search = "https://www.amazon.es/s?k=" + encodedQuery;
